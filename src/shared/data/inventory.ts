@@ -1,0 +1,191 @@
+import type { HeroProduct, StockRow } from "../types/inventory";
+
+const placeholder = "/images/WhatsApp%20Image%202025-11-27%20at%2014.35.26.jpeg";
+
+/** Archivos en `public/images/hero/` (URLs seguras con espacios y paréntesis) */
+const HERO_FILES = [
+  "WhatsApp Image 2026-04-21 at 13.23.53.jpeg",
+  "WhatsApp Image 2026-04-21 at 13.23.53 (1).jpeg",
+  "WhatsApp Image 2026-04-21 at 13.23.53 (2).jpeg",
+  "WhatsApp Image 2026-04-21 at 13.23.53 (3).jpeg",
+  "WhatsApp Image 2026-04-21 at 13.23.57.jpeg",
+  "WhatsApp Image 2026-04-21 at 13.23.59.jpeg",
+] as const;
+
+function heroPublicUrl(filename: string): string {
+  return `/images/hero/${encodeURIComponent(filename)}`;
+}
+
+const HERO_IMAGES = HERO_FILES.map((file, i) => ({
+  src: heroPublicUrl(file),
+  alt: `Calzado Calzados Mila — modelo ${i + 1}`,
+}));
+
+export const heroProducts: HeroProduct[] = [
+  {
+    id: 1,
+    image: HERO_IMAGES[0].src,
+    alt: HERO_IMAGES[0].alt,
+    pos: "absolute top-10 left-16",
+    float: "float-slow",
+    tilt: "-rotate-2",
+  },
+  {
+    id: 2,
+    image: HERO_IMAGES[1].src,
+    alt: HERO_IMAGES[1].alt,
+    pos: "absolute top-8 right-28",
+    float: "float-medium",
+    tilt: "rotate-2",
+  },
+  {
+    id: 3,
+    image: HERO_IMAGES[2].src,
+    alt: HERO_IMAGES[2].alt,
+    pos: "absolute top-44 left-1/2 -translate-x-1/2",
+    float: "float-fast",
+    tilt: "-rotate-1",
+  },
+  {
+    id: 4,
+    image: HERO_IMAGES[3].src,
+    alt: HERO_IMAGES[3].alt,
+    pos: "absolute bottom-36 left-24",
+    float: "float-medium",
+    tilt: "rotate-1",
+  },
+  {
+    id: 5,
+    image: HERO_IMAGES[4].src,
+    alt: HERO_IMAGES[4].alt,
+    pos: "absolute bottom-16 left-1/2 -translate-x-1/2",
+    float: "float-slow",
+    tilt: "rotate-2",
+  },
+  {
+    id: 6,
+    image: HERO_IMAGES[5].src,
+    alt: HERO_IMAGES[5].alt,
+    pos: "absolute bottom-28 right-24",
+    float: "float-fast",
+    tilt: "-rotate-1",
+  },
+];
+
+export const calzadoInventory: StockRow[] = [
+  {
+    id: 1,
+    model: "Sandalia Casual S-001",
+    color: "Negro",
+    size1: { size: 36, qty: 5 },
+    size2: { size: 37, qty: 2 },
+    size3: { size: 38, qty: 2 },
+    totalPairs: 9,
+    season: "Verano 2024",
+    status: "Activo",
+    image: placeholder,
+    provider: "Calzados Mila SAC",
+    soldTotal: 28,
+  },
+  {
+    id: 2,
+    model: "Sandalia Casual S-001",
+    color: "Marron",
+    size1: { size: 36, qty: 4 },
+    size2: { size: 37, qty: 6 },
+    size3: { size: 38, qty: 4 },
+    totalPairs: 14,
+    season: "Verano 2024",
+    status: "Activo",
+    image: placeholder,
+    provider: "Calzados Mila SAC",
+    soldTotal: 41,
+  },
+  {
+    id: 3,
+    model: "Sandalia Sport S-002",
+    color: "Azul",
+    size1: { size: 39, qty: 2 },
+    size2: { size: 40, qty: 3 },
+    size3: { size: 41, qty: 5 },
+    totalPairs: 10,
+    season: "Verano 2024",
+    status: "Activo",
+    image: placeholder,
+    provider: "Distribuidora Andina",
+    soldTotal: 32,
+  },
+  {
+    id: 4,
+    model: "Sandalia Sport S-002",
+    color: "Gris",
+    size1: { size: 39, qty: 1 },
+    size2: { size: 40, qty: 0 },
+    size3: { size: 41, qty: 2 },
+    totalPairs: 3,
+    season: "Verano 2024",
+    status: "Bloqueado",
+    image: placeholder,
+    provider: "Distribuidora Andina",
+    soldTotal: 19,
+  },
+];
+
+export const botinesInventory: StockRow[] = [
+  {
+    id: 101,
+    model: "Botin Chelsea B-101",
+    color: "Negro",
+    size1: { size: 36, qty: 6 },
+    size2: { size: 37, qty: 3 },
+    size3: { size: 38, qty: 1 },
+    totalPairs: 10,
+    season: "Invierno 2025",
+    status: "Activo",
+    image: placeholder,
+    provider: "Calzados Mila SAC",
+    soldTotal: 12,
+  },
+  {
+    id: 102,
+    model: "Botin Chelsea B-101",
+    color: "Cafe",
+    size1: { size: 36, qty: 4 },
+    size2: { size: 37, qty: 5 },
+    size3: { size: 38, qty: 4 },
+    totalPairs: 13,
+    season: "Invierno 2025",
+    status: "Activo",
+    image: placeholder,
+    provider: "Calzados Mila SAC",
+    soldTotal: 18,
+  },
+  {
+    id: 103,
+    model: "Botin Tacón B-202",
+    color: "Beige",
+    size1: { size: 37, qty: 2 },
+    size2: { size: 38, qty: 2 },
+    size3: { size: 39, qty: 0 },
+    totalPairs: 4,
+    season: "Invierno 2025",
+    status: "Activo",
+    image: placeholder,
+    provider: "Distribuidora Andina",
+    soldTotal: 9,
+  },
+  {
+    id: 104,
+    model: "Botin Tacón B-202",
+    color: "Vino",
+    size1: { size: 37, qty: 1 },
+    size2: { size: 38, qty: 1 },
+    size3: { size: 39, qty: 2 },
+    totalPairs: 4,
+    season: "Invierno 2025",
+    status: "Bloqueado",
+    image: placeholder,
+    provider: "Distribuidora Andina",
+    soldTotal: 6,
+  },
+];
