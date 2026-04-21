@@ -74,7 +74,7 @@ export function LandingPage() {
   const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_TEXT}`;
 
   return (
-    <main className="landing-viewport landing-mobile-tight relative flex w-full min-h-0 flex-col items-stretch bg-gradient-to-br from-fuchsia-200/95 via-rose-200 to-amber-50 pt-[max(0px,env(safe-area-inset-top))] pl-[max(0px,env(safe-area-inset-left))] pr-[max(0px,env(safe-area-inset-right))] max-md:overflow-x-hidden md:flex-row md:overflow-hidden">
+    <main className="landing-viewport landing-mobile-tight relative flex w-full flex-col items-stretch bg-gradient-to-br from-fuchsia-200/95 via-rose-200 to-amber-50 pt-[max(0px,env(safe-area-inset-top))] pl-[max(0px,env(safe-area-inset-left))] pr-[max(0px,env(safe-area-inset-right))] max-md:min-h-0 max-md:overflow-x-hidden md:min-h-0 md:flex-row md:overflow-hidden">
       <div className="pointer-events-none absolute -top-24 right-0 h-80 w-80 rounded-full bg-fuchsia-300/50 blur-3xl" />
       <div className="pointer-events-none absolute bottom-0 left-0 h-96 w-96 rounded-full bg-rose-300/60 blur-3xl" />
       <div className="pointer-events-none absolute top-1/3 right-1/4 h-64 w-64 rounded-full bg-amber-200/40 blur-3xl" />
@@ -180,15 +180,15 @@ export function LandingPage() {
         </div>
       </aside>
 
-      <section className="relative w-full min-w-0 max-w-[100vw] border-t border-white/15 max-md:min-h-[min(52svh,22rem)] max-md:flex-1 max-md:shrink-0 md:h-full md:min-h-0 md:flex-1 md:border-t-0">
-        <div className="relative h-full min-h-0 w-full min-w-0">
-          <div className="grid min-h-0 grid-cols-2 gap-2 px-2 pb-[calc(5.5rem+env(safe-area-inset-bottom,0px))] pt-2 [grid-auto-rows:minmax(0,1fr)] max-md:min-h-[min(48svh,20rem)] md:hidden md:min-h-0">
+      <section className="relative w-full min-w-0 max-w-[100vw] border-t border-white/15 max-md:flex-none md:h-full md:min-h-0 md:flex-1 md:border-t-0">
+        <div className="relative w-full min-w-0 max-md:h-auto md:h-full md:min-h-0">
+          <div className="grid grid-cols-2 gap-2.5 px-2 pb-[calc(6.5rem+env(safe-area-inset-bottom,0px))] pt-3 md:hidden">
             {heroProducts.map((product, i) => (
               <div
                 key={product.id}
-                className="product-card min-h-0 overflow-hidden rounded-lg border-2 border-white/80 bg-white shadow-lg sm:rounded-2xl sm:border-4 sm:shadow-xl"
+                className="product-card aspect-square w-full overflow-hidden rounded-xl border-2 border-white/80 bg-white shadow-lg"
               >
-                <div className={`h-full min-h-0 w-full ${product.float}`}>
+                <div className={`h-full w-full ${product.float}`}>
                   <img
                     src={product.image}
                     alt={product.alt}

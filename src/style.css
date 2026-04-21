@@ -1,18 +1,28 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap");
 @import "tailwindcss";
 
-/* Base: evita márgenes por defecto */
-html,
-body,
-#root {
-  height: 100%;
+/* Base: documento puede crecer y hacer scroll (importante en iOS / Safari) */
+html {
+  min-height: 100%;
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
 }
 
 body {
   margin: 0;
+  min-height: 100%;
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
   font-family: "Poppins", "Segoe UI", sans-serif;
   background: #f8f4ff;
   color: #334155;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100%;
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
 }
 
 .font-display {
@@ -86,7 +96,7 @@ body {
   min-height: 0;
 }
 
-/* Móvil / tablet retrato: alto mínimo real + scroll si el contenido no cabe */
+/* Móvil: el scroll es del documento (body), no de <main> — evita bloqueo en iPhone */
 @media (max-width: 767.98px) {
   .landing-viewport {
     min-height: 100svh;
@@ -95,9 +105,7 @@ body {
     height: auto;
     max-height: none;
     overflow-x: hidden;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-y: contain;
+    overflow-y: visible;
   }
 }
 
