@@ -1,76 +1,56 @@
-import type { HeroProduct, StockRow } from "../types/inventory";
+import type { BannerLayerRole, BannerShoeLayer, StockRow } from "../types/inventory";
 
 const placeholder = "/images/WhatsApp%20Image%202025-11-27%20at%2014.35.26.jpeg";
 
-/** Archivos en `public/images/hero/` (URLs seguras con espacios y paréntesis) */
-const HERO_FILES = [
-  "WhatsApp Image 2026-04-21 at 13.23.53.jpeg",
-  "WhatsApp Image 2026-04-21 at 13.23.53 (1).jpeg",
-  "WhatsApp Image 2026-04-21 at 13.23.53 (2).jpeg",
-  "WhatsApp Image 2026-04-21 at 13.23.53 (3).jpeg",
-  "WhatsApp Image 2026-04-21 at 13.23.57.jpeg",
-  "WhatsApp Image 2026-04-21 at 13.23.59.jpeg",
-] as const;
+/**
+ * Hero: 4 fotos con alpha — `back` (detrás del centro), izquierda, centro (foco), derecha.
+ * Archivos en `public/images/hero/` deben coincidir con `file` (incluye espacios en nombres Gemini).
+ */
+const BANNER_FILES: {
+  file: string;
+  layer: BannerLayerRole;
+  fallback?: string;
+}[] = [
+  {
+    /** Arriba-derecha, pequeña y clara (profundidad) — ref. banner */
+    file: "Gemini_Generated_Image_61pwn961pwn961pw-convertido-de-png-Photoroom.png",
+    layer: "back",
+    fallback: "hero-3-cutout.webp",
+  },
+  {
+    file: "Gemini_Generated_Image_mmutbwmmutbwmmut (1)-Photoroom.png",
+    layer: "left",
+    fallback: "hero-1-cutout.webp",
+  },
+  {
+    /** Negro grande, foco central */
+    file: "Gemini_Generated_Image_p303pzp303pzp303-convertido-de-png-Photoroom.png",
+    layer: "center",
+    fallback: "banner-center.webp",
+  },
+  {
+    /** Negro mediano a la derecha */
+    file: "Gemini_Generated_Image_npyrdknpyrdknpyr-convertido-de-png-Photoroom.png",
+    layer: "right",
+    fallback: "Gemini_Generated_Image_npyrdknpyrdknpyr-convertido-de-png-Photoroom.webp",
+  },
+];
 
-function heroPublicUrl(filename: string): string {
+function bannerPublicUrl(filename: string): string {
   return `/images/hero/${encodeURIComponent(filename)}`;
 }
 
-const HERO_IMAGES = HERO_FILES.map((file, i) => ({
-  src: heroPublicUrl(file),
-  alt: `Calzado Calzados Mila — modelo ${i + 1}`,
-}));
+function heroAsset(filename: string): string {
+  return `/images/hero/${filename}`;
+}
 
-export const heroProducts: HeroProduct[] = [
-  {
-    id: 1,
-    image: HERO_IMAGES[0].src,
-    alt: HERO_IMAGES[0].alt,
-    pos: "absolute top-10 left-16",
-    float: "float-slow",
-    tilt: "-rotate-2",
-  },
-  {
-    id: 2,
-    image: HERO_IMAGES[1].src,
-    alt: HERO_IMAGES[1].alt,
-    pos: "absolute top-8 right-28",
-    float: "float-medium",
-    tilt: "rotate-2",
-  },
-  {
-    id: 3,
-    image: HERO_IMAGES[2].src,
-    alt: HERO_IMAGES[2].alt,
-    pos: "absolute top-44 left-1/2 -translate-x-1/2",
-    float: "float-fast",
-    tilt: "-rotate-1",
-  },
-  {
-    id: 4,
-    image: HERO_IMAGES[3].src,
-    alt: HERO_IMAGES[3].alt,
-    pos: "absolute bottom-36 left-24",
-    float: "float-medium",
-    tilt: "rotate-1",
-  },
-  {
-    id: 5,
-    image: HERO_IMAGES[4].src,
-    alt: HERO_IMAGES[4].alt,
-    pos: "absolute bottom-16 left-1/2 -translate-x-1/2",
-    float: "float-slow",
-    tilt: "rotate-2",
-  },
-  {
-    id: 6,
-    image: HERO_IMAGES[5].src,
-    alt: HERO_IMAGES[5].alt,
-    pos: "absolute bottom-28 right-24",
-    float: "float-fast",
-    tilt: "-rotate-1",
-  },
-];
+export const bannerShoes: BannerShoeLayer[] = BANNER_FILES.map((row, i) => ({
+  id: i + 1,
+  image: bannerPublicUrl(row.file),
+  fallbackImage: row.fallback ? heroAsset(row.fallback) : undefined,
+  alt: `Calzados Mila — vista ${row.layer}`,
+  layer: row.layer,
+}));
 
 export const calzadoInventory: StockRow[] = [
   {

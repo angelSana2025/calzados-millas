@@ -7,12 +7,19 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "start": "node scripts/railway-start.mjs"
+    "start": "node scripts/railway-start.mjs",
+    "images:hero-webp": "node scripts/hero-jpeg-to-webp.mjs",
+    "images:hero-cutout": "node scripts/hero-cutout-png-to-webp.mjs",
+    "images:hero-cutout-stub": "node scripts/hero-sync-cutout-stubs.mjs",
+    "images:hero-remove-bg": "node scripts/hero-remove-bg.mjs",
+    "images:banner-stub": "node scripts/banner-sync-stubs.mjs"
   },
   "devDependencies": {
+    "@imgly/background-removal-node": "^1.4.5",
     "@tailwindcss/vite": "^4.1.18",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
+    "sharp": "^0.34.5",
     "tailwindcss": "^4.1.18",
     "typescript": "~5.9.3",
     "vite": "^7.2.4"

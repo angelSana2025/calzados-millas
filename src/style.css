@@ -98,7 +98,7 @@ body {
 
 /* Móvil: el scroll es del documento (body), no de <main> — evita bloqueo en iPhone */
 @media (max-width: 767.98px) {
-  .landing-viewport {
+  .landing-viewport:not(.landing-viewport--banner) {
     min-height: 100svh;
     min-height: 100dvh;
     min-height: -webkit-fill-available;
@@ -116,6 +116,299 @@ body {
     max-height: 100dvh;
     overflow: hidden;
   }
+}
+
+/* Hero Milas: una sola pantalla, sin scroll (usa 100svh en móvil por barras del navegador) */
+.landing-viewport.landing-viewport--banner {
+  height: 100dvh;
+  height: 100svh;
+  max-height: 100dvh;
+  max-height: 100svh;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Página exterior: marco claro alrededor de la tarjeta del mock */
+.landing-mila-page {
+  background: linear-gradient(180deg, #c9baa8 0%, #d8cdc0 40%, #cfc3b4 100%);
+  box-sizing: border-box;
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
+}
+
+.landing-banner-pill {
+  border-radius: 9999px;
+  background: linear-gradient(180deg, #5c3d2e 0%, #4a3226 100%);
+  box-shadow: 0 4px 18px rgba(44, 28, 21, 0.22);
+}
+
+.landing-price-card {
+  border-radius: 1.15rem;
+  background: linear-gradient(168deg, #fdf8f0 0%, #f0e8dc 45%, #e8dfd2 100%);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow:
+    0 12px 32px rgba(58, 38, 28, 0.14),
+    0 2px 0 rgba(255, 255, 255, 0.85) inset;
+}
+
+.mila-price-overlap {
+  z-index: 30;
+}
+
+.banner-scene {
+  position: relative;
+  width: 100%;
+  min-height: min(50vh, 22rem);
+  isolation: isolate;
+  overflow: visible;
+}
+
+@media (min-width: 768px) {
+  .banner-scene {
+    min-height: min(48vh, 24rem);
+    max-height: 28rem;
+  }
+}
+
+.banner-shoe-layer {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.banner-shoe-img {
+  width: auto;
+  height: auto;
+}
+
+/* Mock: bota clara atrás-derecha, más pequeña */
+.banner-shoe--back {
+  z-index: 5;
+  right: 6%;
+  top: 6%;
+  width: min(28%, 12rem);
+  transform: rotate(18deg);
+  filter: blur(7px);
+  opacity: 0.88;
+}
+
+.banner-shoe--back .banner-shoe-img {
+  filter: drop-shadow(6px 14px 10px rgba(35, 22, 16, 0.22));
+}
+
+/* Mock: izquierda, apuntando hacia la derecha */
+.banner-shoe--left {
+  z-index: 15;
+  left: 2%;
+  bottom: 6%;
+  width: min(38%, 16rem);
+  transform: rotate(10deg);
+}
+
+.banner-shoe--left .banner-shoe-img {
+  filter: drop-shadow(8px 18px 14px rgba(35, 22, 16, 0.28));
+}
+
+/* Mock: derecha, apuntando hacia la izquierda */
+.banner-shoe--right {
+  z-index: 15;
+  right: 2%;
+  bottom: 8%;
+  width: min(34%, 15rem);
+  transform: rotate(-12deg);
+}
+
+.banner-shoe--right .banner-shoe-img {
+  filter: drop-shadow(8px 18px 14px rgba(35, 22, 16, 0.28));
+}
+
+/* Mock: centro grande, eje hacia la derecha */
+.banner-shoe--center {
+  z-index: 25;
+  left: 50%;
+  top: 54%;
+  width: min(54%, 22rem);
+  transform: translate(-50%, -50%) rotate(11deg);
+}
+
+@media (min-width: 768px) {
+  .banner-shoe--center {
+    width: min(48%, 24rem);
+    top: 52%;
+  }
+}
+
+.banner-shoe--center .banner-shoe-img {
+  filter: drop-shadow(12px 24px 20px rgba(35, 22, 16, 0.32)) drop-shadow(0 6px 12px rgba(35, 22, 16, 0.2));
+}
+
+@media (max-width: 767.98px) {
+  .banner-scene {
+    min-height: min(56vh, 26rem);
+  }
+
+  .banner-shoe--back {
+    width: 26%;
+    right: 4%;
+    top: 10%;
+    filter: blur(5px);
+  }
+
+  .banner-shoe--left {
+    width: 44%;
+    left: -4%;
+    bottom: 18%;
+  }
+
+  .banner-shoe--right {
+    width: 40%;
+    right: -4%;
+    bottom: 20%;
+  }
+
+  .banner-shoe--center {
+    width: 58%;
+    top: 48%;
+  }
+
+  .mila-price-overlap {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* Landing editorial (hero estilo revista, beige + tarjetas chocolate) */
+.landing-editorial-bg {
+  background-color: #e5d9c8;
+  background-image:
+    radial-gradient(ellipse 85% 70% at 12% 18%, rgba(212, 196, 168, 0.55) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 60% at 88% 75%, rgba(198, 178, 152, 0.45) 0%, transparent 50%),
+    linear-gradient(165deg, #ebe2d4 0%, #dcccb8 48%, #d2c2aa 100%);
+}
+
+.editorial-shape-square {
+  position: absolute;
+  border-radius: 3px;
+  background: rgba(214, 199, 178, 0.55);
+  transform: rotate(12deg);
+}
+
+.editorial-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  pointer-events: none;
+}
+
+.editorial-card {
+  background: linear-gradient(155deg, #3d2a1f 0%, #2c1c15 100%);
+  box-shadow:
+    0 22px 50px rgba(35, 22, 16, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+  clip-path: polygon(
+    0% 3%,
+    4% 0%,
+    96% 0%,
+    100% 5%,
+    100% 97%,
+    96% 100%,
+    5% 100%,
+    0% 94%
+  );
+}
+
+.editorial-card-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0ebe3;
+  color: #1a120e;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .editorial-card-cta:hover {
+    background: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  }
+}
+
+.editorial-bg-product {
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: 1rem;
+  box-shadow: 0 12px 40px rgba(44, 28, 21, 0.12);
+}
+
+.editorial-bg-product img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  filter: blur(16px) saturate(0.82) brightness(1.04);
+}
+
+.editorial-spotlight {
+  filter: drop-shadow(0 28px 44px rgba(35, 22, 16, 0.38));
+}
+
+.editorial-spotlight-inner {
+  background: linear-gradient(168deg, #faf7f1 0%, #ebe3d6 45%, #e0d5c4 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.65) inset,
+    0 -1px 0 rgba(61, 42, 31, 0.06) inset;
+}
+
+.editorial-spotlight img {
+  filter: none;
+  object-fit: contain;
+  object-position: center;
+}
+
+/* Solo calzado (PNG/WebP con alpha): sin tarjeta, sombra sigue la silueta */
+.editorial-spotlight-cutout {
+  background: transparent !important;
+  box-shadow: none !important;
+  filter: none;
+}
+
+.editorial-spotlight-cutout img {
+  object-fit: contain;
+  filter: drop-shadow(8px 20px 14px rgba(35, 22, 16, 0.28))
+    drop-shadow(0 6px 18px rgba(35, 22, 16, 0.2));
+}
+
+.editorial-bg-product--cutout {
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  overflow: visible;
+}
+
+.editorial-bg-product--cutout img {
+  object-fit: contain;
+}
+
+.editorial-carousel-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: rgba(61, 42, 31, 0.22);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.editorial-carousel-dot[aria-current="true"] {
+  background: #3d2a1f;
+  transform: scale(1.15);
 }
 
 /* Móvil apaisado o pantallas muy bajas: compactar un poco el bloque superior */
