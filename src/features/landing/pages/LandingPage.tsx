@@ -74,17 +74,17 @@ export function LandingPage() {
   const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_TEXT}`;
 
   return (
-    <main className="landing-viewport relative flex w-full min-h-0 flex-col items-stretch overflow-hidden bg-gradient-to-br from-fuchsia-200/95 via-rose-200 to-amber-50 md:flex-row">
+    <main className="landing-viewport landing-mobile-tight relative flex w-full min-h-0 flex-col items-stretch bg-gradient-to-br from-fuchsia-200/95 via-rose-200 to-amber-50 pt-[max(0px,env(safe-area-inset-top))] pl-[max(0px,env(safe-area-inset-left))] pr-[max(0px,env(safe-area-inset-right))] max-md:overflow-x-hidden md:flex-row md:overflow-hidden">
       <div className="pointer-events-none absolute -top-24 right-0 h-80 w-80 rounded-full bg-fuchsia-300/50 blur-3xl" />
       <div className="pointer-events-none absolute bottom-0 left-0 h-96 w-96 rounded-full bg-rose-300/60 blur-3xl" />
       <div className="pointer-events-none absolute top-1/3 right-1/4 h-64 w-64 rounded-full bg-amber-200/40 blur-3xl" />
 
-      <aside className="relative z-20 flex min-h-0 w-full min-w-0 flex-[1.05] flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-rose-400/85 via-rose-300/80 to-fuchsia-400/50 px-3 py-2 text-center md:h-full md:w-[35rem] md:flex-initial md:shrink-0 md:items-start md:px-8 md:py-6 md:text-left lg:px-10 lg:py-8">
+      <aside className="relative z-20 flex w-full min-w-0 max-w-[100vw] flex-col items-center justify-center bg-gradient-to-b from-rose-400/85 via-rose-300/80 to-fuchsia-400/50 px-3 pb-3 pt-2 text-center max-md:min-h-0 max-md:flex-none max-md:shrink-0 max-md:overflow-visible md:h-full md:min-h-0 md:w-[35rem] md:flex-[1.02] md:overflow-hidden md:px-8 md:py-6 md:pb-6 md:pt-6 md:items-start md:text-left lg:px-10 lg:py-8">
         <div className="fade-up mx-auto flex w-full max-w-md min-h-0 flex-col gap-2 md:mx-0 md:max-w-lg md:gap-6 lg:gap-8">
           <header className="space-y-1 md:space-y-4 lg:space-y-5">
             <span className="inline-flex max-w-full items-center gap-1.5 rounded-full border border-white/50 bg-white/75 px-2.5 py-1 text-[8px] font-bold uppercase tracking-[0.2em] text-rose-800 shadow-md backdrop-blur-sm md:gap-2 md:px-4 md:py-2 md:text-[10px] md:tracking-[0.28em]">
               <span className="h-1 w-1 shrink-0 animate-pulse rounded-full bg-rose-500 md:h-1.5 md:w-1.5" aria-hidden="true" />
-              <span className="truncate sm:whitespace-normal">Nueva temporada · Moda femenina</span>
+              <span className="break-words text-balance sm:whitespace-normal">Nueva temporada · Moda femenina</span>
             </span>
             <div className="space-y-0 md:space-y-2">
               <h1 className="landing-title-calzado font-display text-3xl font-extrabold leading-[1.02] text-white sm:text-4xl md:text-6xl lg:text-7xl">
@@ -139,7 +139,7 @@ export function LandingPage() {
               Te respondemos al instante · sin compromiso · también en tienda
             </p>
 
-            <div className="w-full border-t border-white/35 pt-1.5 md:pt-5">
+            <div className="w-full border-t border-white/35 pb-1 pt-2 md:pb-0 md:pt-5">
               <p className="mb-1.5 text-center text-[9px] font-bold uppercase tracking-[0.12em] text-white drop-shadow-sm md:mb-3 md:text-xs md:tracking-[0.18em]">
                 Síguenos · Calzados Mila
               </p>
@@ -180,9 +180,9 @@ export function LandingPage() {
         </div>
       </aside>
 
-      <section className="relative min-h-0 w-full min-w-0 flex-[0.95] md:h-full md:flex-1">
-        <div className="relative h-full min-h-0 w-full">
-          <div className="grid h-full min-h-0 grid-cols-3 grid-rows-2 gap-1 p-1 sm:gap-2 sm:p-2 md:hidden">
+      <section className="relative w-full min-w-0 max-w-[100vw] border-t border-white/15 max-md:min-h-[min(52svh,22rem)] max-md:flex-1 max-md:shrink-0 md:h-full md:min-h-0 md:flex-1 md:border-t-0">
+        <div className="relative h-full min-h-0 w-full min-w-0">
+          <div className="grid min-h-0 grid-cols-2 gap-2 px-2 pb-[calc(5.5rem+env(safe-area-inset-bottom,0px))] pt-2 [grid-auto-rows:minmax(0,1fr)] max-md:min-h-[min(48svh,20rem)] md:hidden md:min-h-0">
             {heroProducts.map((product, i) => (
               <div
                 key={product.id}
@@ -229,9 +229,9 @@ export function LandingPage() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="WhatsApp"
-        className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-xl ring-2 ring-white/35 transition hover:-translate-y-0.5 hover:bg-[#20bd5a]"
+        className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-[max(1rem,env(safe-area-inset-right))] z-50 flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-xl ring-2 ring-white/35 transition hover:-translate-y-0.5 hover:bg-[#20bd5a] md:bottom-5 md:right-5 md:h-14 md:w-14"
       >
-        <WhatsAppIcon size={28} />
+        <WhatsAppIcon size={26} />
       </a>
     </main>
   );

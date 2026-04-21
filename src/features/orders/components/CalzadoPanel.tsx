@@ -78,7 +78,7 @@ export function CalzadoPanel({ rows, inventoryTitle = "Inventario de Sandalias" 
 
   return (
     <section className="flex min-h-0 flex-1 flex-col gap-3">
-      <div className="grid shrink-0 gap-3 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid shrink-0 grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <article className="kpi-card kpi-card-blue">
           <p className="kpi-number">{totalPairs}</p>
           <p className="kpi-label">Total Pares en Stock</p>
@@ -99,30 +99,33 @@ export function CalzadoPanel({ rows, inventoryTitle = "Inventario de Sandalias" 
 
       <div className="inventory-panel-root flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
         <div className="shrink-0 border-b border-slate-100 p-4 md:p-5">
-          <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <h1 className="text-xl font-bold text-slate-800 md:text-2xl">{inventoryTitle}</h1>
-            <button type="button" className="add-product-btn">
+          <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <h1 className="min-w-0 break-words text-xl font-bold text-slate-800 md:text-2xl">{inventoryTitle}</h1>
+            <button type="button" className="add-product-btn w-full shrink-0 sm:w-auto">
               + Agregar Producto
             </button>
           </div>
-          <div className="flex flex-col gap-3 md:flex-row">
-            <input
-              type="text"
-              className="inventory-search"
-              placeholder="Buscar por modelo o color..."
-              aria-label="Buscar por modelo o color"
-            />
-            <button type="button" className="inventory-filter-btn">
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-stretch">
+            <div className="w-full min-w-0 sm:flex-1 sm:min-w-[10rem]">
+              <input
+                type="text"
+                className="inventory-search w-full"
+                placeholder="Buscar por modelo o color..."
+                aria-label="Buscar por modelo o color"
+              />
+            </div>
+            <button type="button" className="inventory-filter-btn w-full sm:w-auto">
               Todas las temporadas
             </button>
-            <button type="button" className="inventory-filter-btn">
+            <button type="button" className="inventory-filter-btn w-full sm:w-auto">
               Stock bajo
             </button>
           </div>
         </div>
 
         <div className="inventory-table-scroll min-h-0 flex-1 overflow-auto p-3 md:p-4 md:pt-3">
-          <div className="overflow-x-auto">
+          <p className="mb-2 text-center text-[11px] text-slate-500 md:hidden">Desliza horizontalmente para ver toda la tabla</p>
+          <div className="inventory-x-scroll overflow-x-auto overscroll-x-contain">
           <table className="w-full min-w-[1080px] border-collapse">
             <thead>
               <tr className="bg-gradient-to-r from-blue-600 to-violet-600 text-sm text-white">
