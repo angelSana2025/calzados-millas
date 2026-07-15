@@ -1,22 +1,18 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import { botinesInventory, calzadoInventory } from "../shared/data/inventory";
-import { LandingPage } from "../features/landing/pages/LandingPage";
-import { OrderManagementPage } from "../features/orders/pages/OrderManagementPage";
-import { CalzadoPanel } from "../features/orders/components/CalzadoPanel";
+import { ROUTES } from "@/core";
+import { GestionBotinesPage } from "@/features/gestion-botines";
+import { GestionSandaliasPage } from "@/features/gestion-sandalias";
+import { IniciarSesionPage } from "@/features/iniciar-sesion/pages/IniciarSesionPage";
+import { LandingPage } from "@/features/landing/pages/LandingPage";
 
 export function AppRouter() {
   return (
     <Routes>
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/gestion-pedido" element={<OrderManagementPage />}>
-        <Route index element={<Navigate to="sandalias" replace />} />
-        <Route path="sandalias" element={<CalzadoPanel rows={calzadoInventory} />} />
-        <Route
-          path="botines"
-          element={<CalzadoPanel rows={botinesInventory} inventoryTitle="Inventario de Botines" />}
-        />
-      </Route>
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path={ROUTES.home} element={<LandingPage />} />
+      <Route path={ROUTES.iniciarSession} element={<IniciarSesionPage />} />
+      <Route path={ROUTES.gestionSandalias} element={<GestionSandaliasPage />} />
+      <Route path={ROUTES.gestionBotines} element={<GestionBotinesPage />} />
+      <Route path="*" element={<Navigate to={ROUTES.home} replace />} />
     </Routes>
   );
 }
