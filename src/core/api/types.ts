@@ -6,3 +6,21 @@ export type NestHttpException = {
 };
 
 export type ApiErrorPayload = NestHttpException | { message?: string };
+
+/* ─── Auth ─────────────────────────────────────────── */
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface AuthUser {
+  id: number;
+  email: string;
+  name?: string;
+}
+
+export interface LoginResponse {
+  accessToken: string;
+  user: AuthUser;
+}
