@@ -1,111 +1,130 @@
 import { NavLink } from "react-router-dom";
+import { LayoutGrid, Package, BarChart3, BarChart, Flower2, PlusCircle, HelpCircle, LogOut, Mountain } from "lucide-react";
 import { ROUTES } from "@/core";
 import type { InventorySection, StockRow } from "../types";
-import { stockPillClass } from "../utils/stock";
+import type { ViewCategory } from "./InventoryManagementLayout";
 
-type InventorySidebarProps = {
+// Props para el modo legacy (sección fija sin alertas — ahora en el header)
+type LegacyProps = {
   rows: StockRow[];
   currentSection: InventorySection;
+  activeView?: never;
+  onViewChange?: never;
 };
 
+// Props para el modo unificado (cambio de vistas por botones)
+type UnifiedProps = {
+  activeView: ViewCategory;
+  onViewChange: (view: ViewCategory) => void;
+  rows?: never;
+  currentSection?: never;
+};
+
+// Discriminated union: la presencia de activeView determina el modo
+type InventorySidebarProps = LegacyProps | UnifiedProps;
+
+// Iconos y etiquetas de navegación en modo unificado
+const NAV_ITEMS: { view: ViewCategory; label: string; icon: React.ReactNode }[] = [
+  { view: "product-grid",  label: "Cuadrícula",  icon: <LayoutGrid size={18} /> },
+  { view: "stock-table",   label: "Stock",        icon: <Package size={18} /> },
+  { view: "dashboard",     label: "Dashboard",    icon: <BarChart3 size={18} /> },
+  { view: "sales-report",  label: "Ventas",       icon: <BarChart size={18} /> },
+];
+
+// Enlaces a las secciones del inventario legacy
 const SECTION_LINKS: { section: InventorySection; label: string; to: string }[] = [
   { section: "sandalias", label: "Calzado / Sandalias", to: ROUTES.gestionSandalias },
   { section: "botines", label: "Botines", to: ROUTES.gestionBotines },
 ];
 
-export function InventorySidebar({ rows, currentSection }: InventorySidebarProps) {
-  const stockAlerts = rows
-    .map((row) => {
-      const lowSizes = [row.size1, row.size2, row.size3].filter((size) => size.qty <= 3);
-      return { row, lowSizes };
-    })
-    .filter((entry) => entry.lowSizes.length > 0)
-    .slice(0, 3);
+/** Sidebar de navegación con dos modos:
+ *  - Unificado: botones para cambiar entre vistas (cuadrícula, stock, dashboard, ventas)
+ *  - Legacy: enlaces a secciones (las alertas de stock están en el header) */
+export function InventorySidebar(props: InventorySidebarProps) {
+  // Detecta el modo por la presencia de activeView en props
+  const isUnified = "activeView" in props;
+
+  if (isUnified) {
+    const { activeView, onViewChange } = props as UnifiedProps;
+    return (
+      <aside className="flex flex-col h-full">
+        <div className="mb-3 px-2">
+          <p className="text-[10px] font-bold text-[#867275] uppercase tracking-widest mb-4">Gestión</p>
+          <nav className="space-y-1">
+            {NAV_ITEMS.map(({ view, label, icon }) => (
+              <button
+                key={view}
+                onClick={() => onViewChange(view)}
+                className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 text-left w-full ${
+                  activeView === view
+                    ? "bg-[#E8839A] text-[#671c32] font-bold shadow-sm"
+                    : "text-[#544245] hover:bg-[#F5DCE9]/50"
+                }`}
+              >
+                {icon}
+                <span className="text-[14px] font-medium">{label}</span>
+              </button>
+            ))}
+          </nav>
+        </div>
+        <div className="mt-auto pt-4 border-t border-[#E5E7EB]">
+          <button className="w-full flex items-center gap-3 px-4 py-3 text-[#984258] bg-[#984258]/5 hover:bg-[#984258]/10 rounded-lg font-bold transition-all mb-4">
+            <PlusCircle size={18} />
+            <span className="text-[14px] font-medium">Registrar Producto</span>
+          </button>
+          <button className="w-full flex items-center gap-3 px-4 py-3 text-[#544245] hover:bg-[#F5DCE9]/50 rounded-lg transition-all text-left">
+            <HelpCircle size={18} aria-hidden="true" />
+            <span className="text-[14px] font-medium">Centro de ayuda</span>
+          </button>
+          <button className="w-full flex items-center gap-3 px-4 py-3 text-[#544245] hover:bg-[#F5DCE9]/50 rounded-lg transition-all text-left">
+            <LogOut size={18} aria-hidden="true" />
+            <span className="text-[14px] font-medium">Cerrar sesión</span>
+          </button>
+        </div>
+      </aside>
+    );
+  }
+
+  const { currentSection } = props as LegacyProps;
 
   return (
-    <aside className="order-sidebar flex flex-col gap-3">
-      <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
-        <h2 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-600">Menú</h2>
-        <nav className="flex flex-col gap-1.5" aria-label="Módulos de gestión">
+    <aside className="flex flex-col h-full">
+      <div className="mb-3 px-2">
+        <p className="text-[10px] font-bold text-[#867275] uppercase tracking-widest mb-4">Gestión</p>
+        <nav className="space-y-1">
           {SECTION_LINKS.map(({ section, label, to }) => (
             <NavLink
               key={section}
               to={to}
               className={({ isActive }) =>
-                `rounded-lg px-3 py-2 text-sm font-medium transition ${
+                `flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 text-left w-full ${
                   isActive || section === currentSection
-                    ? "bg-blue-50 text-blue-700 ring-1 ring-blue-200"
-                    : "text-slate-600 hover:bg-slate-50"
+                    ? "bg-[#E8839A] text-[#671c32] font-bold shadow-sm"
+                    : "text-[#544245] hover:bg-[#F5DCE9]/50"
                 }`
               }
               end
             >
-              {label}
+              {section === "sandalias" ? <Flower2 size={18} /> : <Mountain size={18} />}
+              <span className="text-[14px] font-medium">{label}</span>
             </NavLink>
           ))}
         </nav>
       </div>
 
-      <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
-        <h3 className="mb-2 text-sm font-bold text-slate-800">Alertas de stock</h3>
-        <div className="order-alerts-scroll max-h-[min(200px,32vh)] space-y-2 overflow-y-auto pr-0.5">
-          {stockAlerts.length === 0 ? (
-            <p className="text-xs text-slate-500">Sin alertas por ahora.</p>
-          ) : (
-            stockAlerts.map(({ row, lowSizes }) => (
-              <article key={row.id} className="stock-alert-card">
-                <p className="text-sm font-semibold leading-tight text-slate-800">{row.model}</p>
-                <p className="mb-1.5 text-xs text-slate-500">Color: {row.color}</p>
-                {lowSizes.map((size) => (
-                  <div key={`${row.id}-${size.size}`} className="stock-alert-item">
-                    <span className="text-xs text-slate-700">Talla {size.size}</span>
-                    <span className={`stock-pill ${stockPillClass(size.qty)}`}>{size.qty} pares</span>
-                  </div>
-                ))}
-              </article>
-            ))
-          )}
-        </div>
-      </div>
-
-      <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
-        <div className="flex min-w-0 flex-col gap-4">
-          <div className="min-w-0">
-            <h3 className="mb-2 text-[11px] font-bold uppercase tracking-wide text-slate-600">Acciones rápidas</h3>
-            <div className="grid grid-cols-2 gap-2">
-              <button type="button" className="quick-action-btn quick-action-btn-compact">
-                + Venta
-              </button>
-              <button type="button" className="quick-action-btn quick-action-btn-compact">
-                + Stock
-              </button>
-              <button type="button" className="quick-action-btn quick-action-btn-compact">
-                Temporada
-              </button>
-              <button type="button" className="quick-action-btn quick-action-btn-compact">
-                Reportes
-              </button>
-            </div>
-          </div>
-
-          <div className="sidebar-section-divider border-t border-slate-200 pt-4">
-            <h3 className="mb-2 text-[11px] font-bold uppercase tracking-wide text-slate-600">Estado del stock</h3>
-            <ul className="m-0 flex list-none flex-col gap-2 p-0 text-[11px] leading-snug text-slate-600">
-              <li className="legend-item legend-item-compact">
-                <span className="legend-dot legend-good shrink-0" />
-                <span className="min-w-0">4+ pares — bueno</span>
-              </li>
-              <li className="legend-item legend-item-compact">
-                <span className="legend-dot legend-low shrink-0" />
-                <span className="min-w-0">3 pares — bajo</span>
-              </li>
-              <li className="legend-item legend-item-compact">
-                <span className="legend-dot legend-critical shrink-0" />
-                <span className="min-w-0">≤2 — crítico</span>
-              </li>
-            </ul>
-          </div>
-        </div>
+      <div className="mt-auto pt-4 border-t border-[#E5E7EB] px-2">
+        <button className="w-full flex items-center gap-3 px-4 py-3 text-[#984258] bg-[#984258]/5 hover:bg-[#984258]/10 rounded-lg font-bold transition-all mb-4 text-left">
+          <PlusCircle size={18} />
+          <span className="text-[14px] font-medium">Registrar Producto</span>
+        </button>
+        <button className="w-full flex items-center gap-3 px-4 py-3 text-[#544245] hover:bg-[#F5DCE9]/50 rounded-lg transition-all text-left">
+          <HelpCircle size={18} aria-hidden="true" />
+          <span className="text-[14px] font-medium">Centro de ayuda</span>
+        </button>
+        <button className="w-full flex items-center gap-3 px-4 py-3 text-[#544245] hover:bg-[#F5DCE9]/50 rounded-lg transition-all text-left">
+          <LogOut size={18} aria-hidden="true" />
+          <span className="text-[14px] font-medium">Cerrar sesión</span>
+        </button>
       </div>
     </aside>
   );

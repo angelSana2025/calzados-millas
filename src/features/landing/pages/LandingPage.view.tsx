@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Search } from "lucide-react";
 import { InstagramIcon, TikTokIcon, WhatsAppIcon } from "../components/SocialIcons";
 import type { LandingSocialLinks } from "../types";
 import { ROUTES } from "@/core";
@@ -85,7 +86,7 @@ export function LandingPageView({ socialLinks }: LandingPageViewProps) {
                ═══════════════════════════════════════════════════════════════ */}
 
             <div className="flex items-center gap-4">
-              <button className="material-symbols-outlined text-[#2a1e22]" aria-label="Buscar">search</button>
+              <button className="flex items-center justify-center text-[#2a1e22]" aria-label="Buscar"><Search size={20} /></button>
               <a href={socialLinks.whatsapp} target="_blank" rel="noopener noreferrer"
                 className={
                   "bg-[#2a1e22]" +           /* Fondo: marrón oscuro. Cambiar hex por otro color */

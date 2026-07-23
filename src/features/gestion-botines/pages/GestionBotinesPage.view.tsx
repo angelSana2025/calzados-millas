@@ -7,7 +7,9 @@ type GestionBotinesPageViewProps = {
   rows: StockRow[];
 };
 
-/** Vista pura: sin hooks ni servicios, solo props → UI. */
+/** Vista pura del patrón Container/View.
+ *  Sin hooks ni servicios. Recibe props y delega en BotinesWorkspace.
+ *  Capa de indirección para futura composición de sub-componentes. */
 export function GestionBotinesPageView({
   title,
   inventoryTitle,

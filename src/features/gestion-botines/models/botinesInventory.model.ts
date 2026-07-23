@@ -1,6 +1,10 @@
 import type { StockRow } from "@/features/inventory-shared";
 import { PRODUCT_PLACEHOLDER_IMAGE } from "@/features/inventory-shared";
 
+/** Datos mock del inventario de botines.
+ *  totalPairs se mantiene manualmente — si se edita sizeN.qty,
+ *  debe actualizarse también totalPairs para mantener consistencia.
+ *  size3.qty = 0 indica que esa talla no está disponible para el producto. */
 export const botinesInventory: StockRow[] = [
   {
     id: 101,

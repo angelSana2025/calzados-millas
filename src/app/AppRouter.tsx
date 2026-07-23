@@ -5,6 +5,7 @@ import { GestionBotinesPage } from "@/features/gestion-botines";
 import { GestionSandaliasPage } from "@/features/gestion-sandalias";
 import { IniciarSesionPage } from "@/features/iniciar-sesion/pages/IniciarSesionPage";
 import { LandingPage } from "@/features/landing/pages/LandingPage";
+import { VentasPage } from "@/features/ventas";
 
 export function AppRouter() {
   return (
@@ -15,6 +16,7 @@ export function AppRouter() {
       <Route element={<ProtectedRoute />}>
         <Route path={ROUTES.gestionSandalias} element={<GestionSandaliasPage />} />
         <Route path={ROUTES.gestionBotines} element={<GestionBotinesPage />} />
+        <Route path={ROUTES.ventas} element={<VentasPage />} />        {/* Stock Control */}
       </Route>
 
       <Route path="*" element={<Navigate to={ROUTES.home} replace />} />

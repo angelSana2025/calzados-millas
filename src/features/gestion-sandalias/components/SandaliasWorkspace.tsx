@@ -7,7 +7,10 @@ type SandaliasWorkspaceProps = {
   rows: StockRow[];
 };
 
-/** Maquetado puro: solo recibe datos y pinta la pantalla de sandalias. */
+/** Componente de presentación pura.
+ *  Compone el layout compartido InventoryManagementLayout (modo legacy)
+ *  con el panel CalzadoPanel para la sección sandalias.
+ *  No contiene lógica de negocio ni efectos secundarios. */
 export function SandaliasWorkspace({ title, inventoryTitle, rows }: SandaliasWorkspaceProps) {
   return (
     <InventoryManagementLayout title={title} section="sandalias" rows={rows}>

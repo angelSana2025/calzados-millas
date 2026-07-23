@@ -7,7 +7,10 @@ type BotinesWorkspaceProps = {
   rows: StockRow[];
 };
 
-/** Maquetado puro: solo recibe datos y pinta la pantalla de botines. */
+/** Componente de presentación pura.
+ *  Compone el layout compartido InventoryManagementLayout (modo legacy)
+ *  con el panel CalzadoPanel para la sección botines.
+ *  No contiene lógica de negocio ni efectos secundarios. */
 export function BotinesWorkspace({ title, inventoryTitle, rows }: BotinesWorkspaceProps) {
   return (
     <InventoryManagementLayout title={title} section="botines" rows={rows}>
