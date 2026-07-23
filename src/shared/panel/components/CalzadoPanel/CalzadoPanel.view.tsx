@@ -10,7 +10,7 @@ import {
   Wallet,
   X,
 } from "lucide-react";
-import { PRODUCT_PLACEHOLDER_IMAGE } from "../../constants";
+// import { PRODUCT_PLACEHOLDER_IMAGE } from "../../constants";
 import type { CalzadoPanelViewProps } from "../../hooks/useCalzadoPanel";
 import { AddProductModal } from "../AddProductModal/AddProductModal";
 
@@ -157,7 +157,7 @@ export function CalzadoPanelView({
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
                         <img
-                          src={row.image ?? PRODUCT_PLACEHOLDER_IMAGE}
+                          src={row.image ?? ""}
                           alt={`${row.model} ${row.color}`}
                           className="w-11 h-11 rounded-lg border border-[#E5E7EB] object-cover bg-white"
                         />
@@ -332,7 +332,7 @@ export function CalzadoPanelView({
               x
             </button>
             <img
-              src={selectedRow.image ?? PRODUCT_PLACEHOLDER_IMAGE}
+              src={selectedRow.image ?? ""}
               alt={selectedRow.model}
               className="modal-photo"
             />

@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { PRODUCT_PLACEHOLDER_IMAGE } from "../constants";
+// import { PRODUCT_PLACEHOLDER_IMAGE } from "../constants";
 import type { AddProductFormData, StockRow } from "../types";
 
 function toStockRow(id: number, data: AddProductFormData, existing?: StockRow): StockRow {
@@ -19,7 +19,7 @@ function toStockRow(id: number, data: AddProductFormData, existing?: StockRow): 
     totalPairs,
     season: data.temporada,
     status: existing?.status ?? "Activo",
-    image: existing?.image ?? PRODUCT_PLACEHOLDER_IMAGE,
+    image: existing?.image ?? "",
     provider: existing?.provider ?? "Calzados Mila SAC",
     soldTotal: existing?.soldTotal ?? 0,
   };

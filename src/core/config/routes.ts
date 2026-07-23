@@ -6,5 +6,3 @@ export const ROUTES = {
   iniciarSession: "/iniciar-session",
   ecommerce: "/tienda",
 } as const;
-
-export type InventorySection = "sandalias" | "botines";

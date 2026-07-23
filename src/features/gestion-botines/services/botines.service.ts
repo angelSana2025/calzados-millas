@@ -1,4 +1,5 @@
 import type { StockRow } from "@/shared/panel";
+import { apiClient } from "@/core";
 import { botinesInventory } from "../models/botinesInventory.model";
 
 /** Servicio de acceso a datos del inventario de botines.
@@ -7,4 +8,10 @@ import { botinesInventory } from "../models/botinesInventory.model";
  *  cambiar a async (Promise<StockRow[]>) y actualizar el hook. */
 export function getBotinesInventory(): StockRow[] {
   return botinesInventory;
+}
+
+/** GET colores disponibles de botines desde el API. */
+export async function getBotinesColores() {
+  const { data } = await apiClient.get("api/botines-milas/get-colores-bottines");
+  return data;
 }

@@ -3,6 +3,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import type { AddProductFormData, StockRow } from "../types";
+import { getBotinesColores } from "@/features/gestion-botines/services/botines.service";
+import { getApiErrorMessage } from "@/core";
 
 const TALLAS = [35, 36, 37, 38, 39] as const;
 const COLORES = ["Negro", "Beige", "Blanco", "Marrón", "Rojo", "Azul"] as const;
@@ -136,10 +138,27 @@ export function useAddProductModal({
   }, [cantidadConfig, cantidadOtro]);
 
   useEffect(() => {
-    if (open) {
-      reset(toModalDefaults(editingRow));
-      setCustomModelo("");
+    if (!open) return;
+
+    reset(toModalDefaults(editingRow));
+    setCustomModelo("");
+
+    let cancelled = false;
+
+    async function loadColores() {
+      try {
+        const colores = await getBotinesColores();
+        if (!cancelled) console.log("Colores de botines:", colores);
+      } catch (error) {
+        if (!cancelled) console.error(getApiErrorMessage(error));
+      }
     }
+
+    void loadColores();
+
+    return () => {
+      cancelled = true;
+    };
   }, [open, editingRow, reset]);
 
   useEffect(() => {

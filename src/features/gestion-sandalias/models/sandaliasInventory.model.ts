@@ -1,5 +1,5 @@
 import type { StockRow } from "@/shared/panel";
-import { PRODUCT_PLACEHOLDER_IMAGE } from "@/shared/panel";
+// import { PRODUCT_PLACEHOLDER_IMAGE } from "@/shared/panel/constants";
 
 /** Datos mock del inventario de sandalias.
  *  totalPairs se mantiene manualmente.
@@ -15,7 +15,7 @@ export const sandaliasInventory: StockRow[] = [
     totalPairs: 9,
     season: "Verano 2024",
     status: "Activo",
-    image: PRODUCT_PLACEHOLDER_IMAGE,
+    // image: PRODUCT_PLACEHOLDER_IMAGE,
     provider: "Calzados Mila SAC",
     soldTotal: 28,
   },
@@ -29,7 +29,7 @@ export const sandaliasInventory: StockRow[] = [
     totalPairs: 14,
     season: "Verano 2024",
     status: "Activo",
-    image: PRODUCT_PLACEHOLDER_IMAGE,
+    // image: PRODUCT_PLACEHOLDER_IMAGE,
     provider: "Calzados Mila SAC",
     soldTotal: 41,
   },
@@ -43,7 +43,7 @@ export const sandaliasInventory: StockRow[] = [
     totalPairs: 10,
     season: "Verano 2024",
     status: "Activo",
-    image: PRODUCT_PLACEHOLDER_IMAGE,
+    // image: PRODUCT_PLACEHOLDER_IMAGE,
     provider: "Distribuidora Andina",
     soldTotal: 32,
   },
@@ -57,7 +57,7 @@ export const sandaliasInventory: StockRow[] = [
     totalPairs: 3,
     season: "Verano 2024",
     status: "Bloqueado",
-    image: PRODUCT_PLACEHOLDER_IMAGE,
+    // image: PRODUCT_PLACEHOLDER_IMAGE,
     provider: "Distribuidora Andina",
     soldTotal: 19,
   },

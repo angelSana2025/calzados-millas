@@ -1,5 +1,5 @@
 import type { StockRow } from "@/shared/panel";
-import { PRODUCT_PLACEHOLDER_IMAGE } from "@/shared/panel";
+// import { PRODUCT_PLACEHOLDER_IMAGE } from "@/shared/panel/constants";
 
 /** Datos mock del inventario de botines.
  *  totalPairs se mantiene manualmente — si se edita sizeN.qty,
@@ -16,7 +16,7 @@ export const botinesInventory: StockRow[] = [
     totalPairs: 10,
     season: "Invierno 2025",
     status: "Activo",
-    image: PRODUCT_PLACEHOLDER_IMAGE,
+    // image: PRODUCT_PLACEHOLDER_IMAGE,
     provider: "Calzados Mila SAC",
     soldTotal: 12,
   },
@@ -30,7 +30,7 @@ export const botinesInventory: StockRow[] = [
     totalPairs: 13,
     season: "Invierno 2025",
     status: "Activo",
-    image: PRODUCT_PLACEHOLDER_IMAGE,
+    // image: PRODUCT_PLACEHOLDER_IMAGE,
     provider: "Calzados Mila SAC",
     soldTotal: 18,
   },
@@ -44,7 +44,7 @@ export const botinesInventory: StockRow[] = [
     totalPairs: 4,
     season: "Invierno 2025",
     status: "Activo",
-    image: PRODUCT_PLACEHOLDER_IMAGE,
+    // image: PRODUCT_PLACEHOLDER_IMAGE,
     provider: "Distribuidora Andina",
     soldTotal: 9,
   },
@@ -58,7 +58,7 @@ export const botinesInventory: StockRow[] = [
     totalPairs: 4,
     season: "Invierno 2025",
     status: "Bloqueado",
-    image: PRODUCT_PLACEHOLDER_IMAGE,
+    // image: PRODUCT_PLACEHOLDER_IMAGE,
     provider: "Distribuidora Andina",
     soldTotal: 6,
   },
