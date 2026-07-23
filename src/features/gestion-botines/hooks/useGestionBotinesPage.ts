@@ -1,7 +1,8 @@
-import { useInventoryCrud } from "@/features/inventory-shared/hooks/useInventoryCrud";
+import { useInventoryCrud } from "@/shared/panel";
+import { getBotinesInventory } from "../services/botines.service";
 
 export function useGestionBotinesPage() {
-  const crud = useInventoryCrud("botines");
+  const crud = useInventoryCrud(getBotinesInventory);
 
   return {
     title: "Gestión de Botines",

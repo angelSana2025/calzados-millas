@@ -1,4 +1,4 @@
-import type { StockRow } from "@/features/inventory-shared";
+import type { StockRow } from "@/shared/panel";
 import { botinesInventory } from "../models/botinesInventory.model";
 
 /** Servicio de acceso a datos del inventario de botines.

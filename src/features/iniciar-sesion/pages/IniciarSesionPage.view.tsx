@@ -33,11 +33,7 @@ export function IniciarSesionPageView({
           {/* ── Logo / Branding ── */}
           <div className="mb-[20px] flex flex-col items-center">
             <div className="mb-[12px] flex size-12 items-center justify-center rounded-2xl bg-[#984258]/90 shadow-lg backdrop-blur-sm">
-<<<<<<< HEAD
-              <span className="material-symbols-outlined text-2xl text-white">shopping_bag</span>
-=======
               <ShoppingBag size={24} className="text-white" />
->>>>>>> 7e08e05cb7f7e4ec1c365b628a5b69e843dae642
             </div>
             <h2 className="text-[16px] font-semibold leading-[1.2] tracking-[-0.01em] text-[#984258] opacity-90">
               Calzados Millas
@@ -75,13 +71,7 @@ export function IniciarSesionPageView({
                   Correo Electrónico
                 </label>
                 <div className="relative group">
-<<<<<<< HEAD
-                  <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#251721]/30 transition-colors group-focus-within:text-[#984258]">
-                    mail
-                  </span>
-=======
                   <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#251721]/30 transition-colors group-focus-within:text-[#984258]" />
->>>>>>> 7e08e05cb7f7e4ec1c365b628a5b69e843dae642
                   <input
                     id="login-email"
                     type="email"
@@ -114,13 +104,7 @@ export function IniciarSesionPageView({
                   </span>
                 </div>
                 <div className="relative group">
-<<<<<<< HEAD
-                  <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#251721]/30 transition-colors group-focus-within:text-[#984258]">
-                    lock
-                  </span>
-=======
                   <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#251721]/30 transition-colors group-focus-within:text-[#984258]" />
->>>>>>> 7e08e05cb7f7e4ec1c365b628a5b69e843dae642
                   <input
                     id="login-password"
                     type={showPassword ? "text" : "password"}
@@ -135,13 +119,7 @@ export function IniciarSesionPageView({
                     className="absolute right-4 top-1/2 -translate-y-1/2 text-[#251721]/30 transition-colors hover:text-[#251721]"
                     tabIndex={0}
                   >
-<<<<<<< HEAD
-                    <span className="material-symbols-outlined">
-                      {showPassword ? "visibility_off" : "visibility"}
-                    </span>
-=======
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
->>>>>>> 7e08e05cb7f7e4ec1c365b628a5b69e843dae642
                   </button>
                   {errors.password && (
                     <p className="absolute -bottom-[18px] left-0 text-[12px] leading-[1.3] text-red-600 z-10">
@@ -175,13 +153,7 @@ export function IniciarSesionPageView({
                   className="login-transition flex h-[56px] w-full items-center justify-center gap-[12px] rounded-xl bg-[#E8839A] font-semibold text-white shadow-lg shadow-[#E8839A]/20 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#E8839A]/30 active:translate-y-0 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span>{isSubmitting ? "Entrando..." : "Entrar"}</span>
-<<<<<<< HEAD
-                  {!isSubmitting && (
-                    <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
-                  )}
-=======
                   {!isSubmitting && <ArrowRight size={20} />}
->>>>>>> 7e08e05cb7f7e4ec1c365b628a5b69e843dae642
                 </button>
 
                 {/* ── Social Divider ── */}

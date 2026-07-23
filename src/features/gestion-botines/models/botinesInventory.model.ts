@@ -1,5 +1,5 @@
-import type { StockRow } from "@/features/inventory-shared";
-import { PRODUCT_PLACEHOLDER_IMAGE } from "@/features/inventory-shared";
+import type { StockRow } from "@/shared/panel";
+import { PRODUCT_PLACEHOLDER_IMAGE } from "@/shared/panel";
 
 /** Datos mock del inventario de botines.
  *  totalPairs se mantiene manualmente — si se edita sizeN.qty,

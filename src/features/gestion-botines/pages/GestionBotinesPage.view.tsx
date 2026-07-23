@@ -1,12 +1,16 @@
-import type { StockRow } from "@/features/inventory-shared";
-import { BotinesWorkspace } from "../components/BotinesWorkspace";
+import {
+  CalzadoPanel,
+  InventoryManagementLayout,
+  type AddProductFormData,
+  type StockRow,
+} from "@/shared/panel";
 
 type GestionBotinesPageViewProps = {
   title: string;
   inventoryTitle: string;
   rows: StockRow[];
-  addProduct: (data: { modelo: string; color: string; temporada: string; pares: { talla: number; cantidad: number }[] }) => void;
-  updateProduct: (id: number, data: { modelo: string; color: string; temporada: string; pares: { talla: number; cantidad: number }[] }) => void;
+  addProduct: (data: AddProductFormData) => void;
+  updateProduct: (id: number, data: AddProductFormData) => void;
   deleteProduct: (id: number) => void;
 };
 
@@ -19,13 +23,14 @@ export function GestionBotinesPageView({
   deleteProduct,
 }: GestionBotinesPageViewProps) {
   return (
-    <BotinesWorkspace
-      title={title}
-      inventoryTitle={inventoryTitle}
-      rows={rows}
-      addProduct={addProduct}
-      updateProduct={updateProduct}
-      deleteProduct={deleteProduct}
-    />
+    <InventoryManagementLayout title={title} rows={rows}>
+      <CalzadoPanel
+        rows={rows}
+        inventoryTitle={inventoryTitle}
+        onAddProduct={addProduct}
+        onEditProduct={updateProduct}
+        onDeleteProduct={deleteProduct}
+      />
+    </InventoryManagementLayout>
   );
 }

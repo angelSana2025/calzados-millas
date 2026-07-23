@@ -499,18 +499,19 @@ body {
 }
 
 .kpi-number {
-  margin: 0.5rem 0 0;
-  font-size: 2.5rem;
+  margin: 0;
+  font-size: 0.95rem;
   font-weight: 800;
-  line-height: 1;
+  line-height: 1.1;
   color: #251721;
 }
 
 .kpi-label {
-  margin: 0.25rem 0 0;
-  font-size: 0.7rem;
+  margin: 0;
+  font-size: 0.58rem;
   color: #544245;
   font-weight: 500;
+  line-height: 1.15;
 }
 
 .modal-backdrop {
@@ -613,11 +614,11 @@ body {
   }
 
   .kpi-number {
-    font-size: 1.55rem;
+    font-size: 0.9rem;
   }
 
   .kpi-label {
-    font-size: 0.72rem;
+    font-size: 0.55rem;
   }
 
   .table-head {

@@ -1,6 +1,6 @@
 import { createContext, useCallback, useEffect, useReducer } from "react";
 import type { AuthUser } from "@/core/api/types";
-import { login as loginApi } from "@/features/iniciar-sesion/services/auth.service";
+import { login as loginApi } from "@/core/api/auth";
 
 /* ─── State ────────────────────────────────────────── */
 

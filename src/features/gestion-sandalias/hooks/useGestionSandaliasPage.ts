@@ -1,7 +1,8 @@
-import { useInventoryCrud } from "@/features/inventory-shared/hooks/useInventoryCrud";
+import { useInventoryCrud } from "@/shared/panel";
+import { getSandaliasInventory } from "../services/sandalias.service";
 
 export function useGestionSandaliasPage() {
-  const crud = useInventoryCrud("sandalias");
+  const crud = useInventoryCrud(getSandaliasInventory);
 
   return {
     title: "Gestión de Sandalias",

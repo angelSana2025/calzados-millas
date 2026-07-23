@@ -1,4 +1,4 @@
-import type { StockRow } from "@/features/inventory-shared";
+import type { StockRow } from "@/shared/panel";
 import { sandaliasInventory } from "../models/sandaliasInventory.model";
 
 /** Servicio de acceso a datos del inventario de sandalias.
