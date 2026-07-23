@@ -5,6 +5,7 @@ export const ROUTES = {
   gestionBotines: "/gestion-botines",
   iniciarSession: "/iniciar-session",
   ventas: "/ventas",            // Stock Control (Admin — Selector Producto)
+  ecommerce: "/tienda",         // Catálogo público (en construcción)
 } as const;
 
 export type InventorySection = "sandalias" | "botines";

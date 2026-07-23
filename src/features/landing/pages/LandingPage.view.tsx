@@ -105,7 +105,7 @@ export function LandingPageView({ socialLinks }: LandingPageViewProps) {
               >
                 Consulta Ahora!
               </a>
-              <a href={ROUTES.home} target="_blank" rel="noopener noreferrer"
+              <Link to={ROUTES.ecommerce}
                 className={
                   "bg-[#2a1e22]" +           /* Fondo: marrón oscuro */
                   " text-white" +
@@ -123,7 +123,7 @@ export function LandingPageView({ socialLinks }: LandingPageViewProps) {
                 }
               >
                 COMPRA AQUÍ
-              </a>
+              </Link>
             </div>
           </div>
         </div>
