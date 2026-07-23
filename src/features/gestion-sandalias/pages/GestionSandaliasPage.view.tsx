@@ -5,15 +5,27 @@ type GestionSandaliasPageViewProps = {
   title: string;
   inventoryTitle: string;
   rows: StockRow[];
+  addProduct: (data: { modelo: string; color: string; temporada: string; pares: { talla: number; cantidad: number }[] }) => void;
+  updateProduct: (id: number, data: { modelo: string; color: string; temporada: string; pares: { talla: number; cantidad: number }[] }) => void;
+  deleteProduct: (id: number) => void;
 };
 
-/** Vista pura del patrón Container/View.
- *  Sin hooks ni servicios. Recibe props y delega en SandaliasWorkspace.
- *  Capa de indirección para futura composición de sub-componentes. */
 export function GestionSandaliasPageView({
   title,
   inventoryTitle,
   rows,
+  addProduct,
+  updateProduct,
+  deleteProduct,
 }: GestionSandaliasPageViewProps) {
-  return <SandaliasWorkspace title={title} inventoryTitle={inventoryTitle} rows={rows} />;
+  return (
+    <SandaliasWorkspace
+      title={title}
+      inventoryTitle={inventoryTitle}
+      rows={rows}
+      addProduct={addProduct}
+      updateProduct={updateProduct}
+      deleteProduct={deleteProduct}
+    />
+  );
 }

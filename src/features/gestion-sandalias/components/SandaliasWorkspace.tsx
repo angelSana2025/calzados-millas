@@ -5,16 +5,28 @@ type SandaliasWorkspaceProps = {
   title: string;
   inventoryTitle: string;
   rows: StockRow[];
+  addProduct: (data: { modelo: string; color: string; temporada: string; pares: { talla: number; cantidad: number }[] }) => void;
+  updateProduct: (id: number, data: { modelo: string; color: string; temporada: string; pares: { talla: number; cantidad: number }[] }) => void;
+  deleteProduct: (id: number) => void;
 };
 
-/** Componente de presentación pura.
- *  Compone el layout compartido InventoryManagementLayout (modo legacy)
- *  con el panel CalzadoPanel para la sección sandalias.
- *  No contiene lógica de negocio ni efectos secundarios. */
-export function SandaliasWorkspace({ title, inventoryTitle, rows }: SandaliasWorkspaceProps) {
+export function SandaliasWorkspace({
+  title,
+  inventoryTitle,
+  rows,
+  addProduct,
+  updateProduct,
+  deleteProduct,
+}: SandaliasWorkspaceProps) {
   return (
     <InventoryManagementLayout title={title} section="sandalias" rows={rows}>
-      <CalzadoPanel rows={rows} inventoryTitle={inventoryTitle} />
+      <CalzadoPanel
+        rows={rows}
+        inventoryTitle={inventoryTitle}
+        onAddProduct={addProduct}
+        onEditProduct={updateProduct}
+        onDeleteProduct={deleteProduct}
+      />
     </InventoryManagementLayout>
   );
 }

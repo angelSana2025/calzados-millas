@@ -12,13 +12,6 @@ export function Pagination({ currentPage, totalPages, totalCount, pageSize, onPa
   const start = (currentPage - 1) * pageSize + 1;
   const end = Math.min(currentPage * pageSize, totalCount);
 
-  /*
-   * Algoritmo de "páginas con elipsis":
-   *   - Siempre muestra la primera y última página
-   *   - Muestra la página actual con una vecina a cada lado
-   *   - Inserta "..." si hay saltos grandes entre grupos
-   *   - Si hay 5 o menos páginas, las muestra todas sin elipsis
-   */
   function getPages(): (number | "ellipsis")[] {
     if (totalPages <= 5) {
       return Array.from({ length: totalPages }, (_, i) => i + 1);

@@ -5,15 +5,27 @@ type GestionBotinesPageViewProps = {
   title: string;
   inventoryTitle: string;
   rows: StockRow[];
+  addProduct: (data: { modelo: string; color: string; temporada: string; pares: { talla: number; cantidad: number }[] }) => void;
+  updateProduct: (id: number, data: { modelo: string; color: string; temporada: string; pares: { talla: number; cantidad: number }[] }) => void;
+  deleteProduct: (id: number) => void;
 };
 
-/** Vista pura del patrón Container/View.
- *  Sin hooks ni servicios. Recibe props y delega en BotinesWorkspace.
- *  Capa de indirección para futura composición de sub-componentes. */
 export function GestionBotinesPageView({
   title,
   inventoryTitle,
   rows,
+  addProduct,
+  updateProduct,
+  deleteProduct,
 }: GestionBotinesPageViewProps) {
-  return <BotinesWorkspace title={title} inventoryTitle={inventoryTitle} rows={rows} />;
+  return (
+    <BotinesWorkspace
+      title={title}
+      inventoryTitle={inventoryTitle}
+      rows={rows}
+      addProduct={addProduct}
+      updateProduct={updateProduct}
+      deleteProduct={deleteProduct}
+    />
+  );
 }

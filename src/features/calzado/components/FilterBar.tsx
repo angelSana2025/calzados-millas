@@ -1,5 +1,5 @@
 import { RefreshCw } from "lucide-react";
-import type { VentasFilters } from "../types/ventas.types";
+import type { VentasFilters } from "../types/calzado.types";
 
 type Props = {
   filters: VentasFilters;
@@ -8,16 +8,6 @@ type Props = {
   onClear: () => void;
 };
 
-/*
- * Barra de 4 filtros en grid responsivo:
- *   - Búsqueda textual
- *   - Categoría (dropdown)
- *   - Estado de stock (dropdown)
- *   - Botón para limpiar todo
- *
- * Cualquier cambio en los filtros dispara onFilterChange,
- * que resetea la paginación a la página 1 en el hook.
- */
 export function FilterBar({ filters, categories, onFilterChange, onClear }: Props) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-[#FFF7F9] p-4 rounded-xl shadow-sm border border-[#E5E7EB]">

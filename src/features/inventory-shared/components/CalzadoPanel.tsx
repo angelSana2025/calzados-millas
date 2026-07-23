@@ -1,9 +1,10 @@
 import { useState, useMemo } from "react";
-import { Package, Wallet, AlertTriangle, AlertCircle, Pencil, Trash2, ShoppingCart, Lock } from "lucide-react";
+import { Package, Wallet, AlertTriangle, AlertCircle, Pencil, Trash2, ShoppingCart, Lock, Check, X } from "lucide-react";
 import { AddProductModal } from "./AddProductModal";
 import { PRODUCT_PLACEHOLDER_IMAGE } from "../constants";
 import type { StockRow } from "../types";
 import type { StockFilter } from "./InventoryManagementLayout";
+import type { AddProductFormData } from "./AddProductModal";
 import { getBotinesInventory } from "@/features/gestion-botines/services/botines.service";
 import { getSandaliasInventory } from "@/features/gestion-sandalias/services/sandalias.service";
 
@@ -12,17 +13,23 @@ type CalzadoPanelProps = {
   inventoryTitle?: string;
   unifiedFilter?: StockFilter;
   onUnifiedFilterChange?: (f: StockFilter) => void;
+  onAddProduct?: (data: AddProductFormData) => void;
+  onEditProduct?: (id: number, data: AddProductFormData) => void;
+  onDeleteProduct?: (id: number) => void;
 };
 
-/** Panel principal de tabla de stock.
- *  Muestra KPIs (total pares, valor, stock bajo, crítico) + tabla scrollable
- *  con tallas, colores, estado y acciones por producto.
- *  Soporta modo unificado (filtro por categoría) y legacy (props directas).
- *  Incluye filtros locales de temporada y stock bajo. */
-export function CalzadoPanel({ rows, inventoryTitle, unifiedFilter, onUnifiedFilterChange }: CalzadoPanelProps) {
+export function CalzadoPanel({
+  rows,
+  inventoryTitle,
+  unifiedFilter,
+  onUnifiedFilterChange,
+  onAddProduct,
+  onEditProduct,
+  onDeleteProduct,
+}: CalzadoPanelProps) {
   const isUnified = unifiedFilter !== undefined;
+  const canMutate = !!onAddProduct;
 
-  // Obtiene filas según el modo: props directas, o merge de botines+sandalias filtrado
   const allRows = useMemo(() => {
     if (rows) return rows;
     const botines = getBotinesInventory();
@@ -35,9 +42,9 @@ export function CalzadoPanel({ rows, inventoryTitle, unifiedFilter, onUnifiedFil
   }, [rows, unifiedFilter]);
 
   const [selectedRow, setSelectedRow] = useState<StockRow | null>(null);
-  const [showAddModal, setShowAddModal] = useState(false);
+  const [modalMode, setModalMode] = useState<{ mode: "add" } | { mode: "edit"; row: StockRow } | null>(null);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
 
-  // KPIs calculados sobre allRows (sin filtros locales)
   const totalPairs = allRows.reduce((sum, row) => sum + row.totalPairs, 0);
   const lowStock = allRows.filter((row) => [row.size1.qty, row.size2.qty, row.size3.qty].some((qty) => qty <= 2)).length;
   const needsBuy = allRows.filter((row) => [row.size1.qty, row.size2.qty, row.size3.qty].some((qty) => qty <= 1)).length;
@@ -45,11 +52,9 @@ export function CalzadoPanel({ rows, inventoryTitle, unifiedFilter, onUnifiedFil
 
   const displayTitle = inventoryTitle ?? (unifiedFilter === "sandalias" ? "Inventario de Sandalias" : unifiedFilter === "botines" ? "Inventario de Botines" : "Tabla de Stock");
 
-  // Filtros locales: temporada (toggle on/off con la primera temporada disponible) y stock bajo
   const [seasonFilter, setSeasonFilter] = useState<string | null>(null);
   const [lowStockFilter, setLowStockFilter] = useState(false);
 
-  // Filas filtradas según estado local (no afecta los KPIs)
   const filteredRows = useMemo(() => {
     let result = allRows;
     if (seasonFilter) {
@@ -60,6 +65,20 @@ export function CalzadoPanel({ rows, inventoryTitle, unifiedFilter, onUnifiedFil
     }
     return result;
   }, [allRows, seasonFilter, lowStockFilter]);
+
+  const handleAddSubmit = (data: AddProductFormData) => {
+    if (modalMode?.mode === "edit" && onEditProduct) {
+      onEditProduct(modalMode.row.id, data);
+    } else if (onAddProduct) {
+      onAddProduct(data);
+    }
+    setModalMode(null);
+  };
+
+  const handleDeleteConfirm = (id: number) => {
+    onDeleteProduct?.(id);
+    setDeletingId(null);
+  };
 
   return (
     <section className="flex min-h-0 flex-1 flex-col gap-3">
@@ -81,19 +100,20 @@ export function CalzadoPanel({ rows, inventoryTitle, unifiedFilter, onUnifiedFil
         </article>
         <article className="flex flex-col items-center text-center bg-white rounded-xl p-5 md:p-6 shadow-sm">
           <AlertCircle size={28} className="mb-2 text-[#EF4444]" aria-hidden="true" />
-          {/* Color rojo condicional para alertar cuando hay stock crítico */}
           <p className="kpi-number" style={needsBuy > 0 ? { color: '#EF4444' } : {}}>{needsBuy}</p>
           <p className="kpi-label">Stock Crítico (Comprar)</p>
         </article>
       </div>
 
-          <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-[#E5E7EB] bg-white shadow-sm">
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-[#E5E7EB] bg-white shadow-sm">
         <div className="shrink-0 border-b border-[#E5E7EB] p-3 md:p-4">
           <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <h1 className="min-w-0 break-words text-xl font-bold text-[#251721] md:text-2xl">{displayTitle}</h1>
-            <button type="button" onClick={() => setShowAddModal(true)} className="border border-[#984258] rounded-lg bg-[#984258] text-white px-4 py-2 text-[14px] font-semibold cursor-pointer hover:bg-[#7A2E45] transition-all w-full shrink-0 sm:w-auto">
-              + Agregar Producto
-            </button>
+            {canMutate && (
+              <button type="button" onClick={() => setModalMode({ mode: "add" })} className="border border-[#984258] rounded-lg bg-[#984258] text-white px-4 py-2 text-[14px] font-semibold cursor-pointer hover:bg-[#7A2E45] transition-all w-full shrink-0 sm:w-auto">
+                + Agregar Producto
+              </button>
+            )}
           </div>
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-stretch">
             {isUnified && (
@@ -141,7 +161,6 @@ export function CalzadoPanel({ rows, inventoryTitle, unifiedFilter, onUnifiedFil
         </div>
 
         <div className="min-h-0 flex-1 overflow-auto p-3 md:p-4 md:pt-3">
-          {/* Leyenda de colores: verde (>=4), amarillo (3), rojo (<=2) */}
           <div className="flex items-center gap-4 px-1 pb-2 text-[11px] text-[#544245]" aria-label="Leyenda de colores de stock">
             <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#16A34A]" /> Disponible</span>
             <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#EAB308]" /> Bajo</span>
@@ -183,7 +202,6 @@ export function CalzadoPanel({ rows, inventoryTitle, unifiedFilter, onUnifiedFil
                   {[row.size1, row.size2, row.size3].map((size, i) => (
                     <td key={i} className="px-4 py-3 text-center">
                       <div className="inline-flex items-center justify-center gap-1.5">
-                        {/* Indicador visual de nivel de stock con tooltip */}
                         <span className={`w-2 h-2 rounded-full shrink-0 ${
                           size.qty >= 4 ? "bg-[#16A34A]" : size.qty >= 3 ? "bg-[#EAB308]" : "bg-[#EF4444]"
                         }`} title={size.qty >= 4 ? "Disponible" : size.qty >= 3 ? "Stock bajo" : "Stock crítico"} />
@@ -199,7 +217,6 @@ export function CalzadoPanel({ rows, inventoryTitle, unifiedFilter, onUnifiedFil
                   <td className="px-4 py-3 text-[13px] text-[#544245]">{row.provider ?? "—"}</td>
                   <td className="px-4 py-3 text-[13px] text-[#867275]">{row.season}</td>
                   <td className="px-4 py-3">
-                    {/* Badge de estado: Activo (verde con punto) / Bloqueado (gris con candado) */}
                     <span className={`inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider ${
                       row.status === "Activo"
                         ? "bg-[#16A34A]/10 text-[#16A34A]"
@@ -214,14 +231,50 @@ export function CalzadoPanel({ rows, inventoryTitle, unifiedFilter, onUnifiedFil
                     </span>
                   </td>
                   <td className="px-4 py-3 text-right">
-                    <div className="flex justify-end gap-2">
-                      <button type="button" className="p-2 text-[#984258] hover:bg-[#984258]/5 rounded-full transition-colors cursor-pointer" aria-label="Editar">
-                        <Pencil size={16} />
-                      </button>
-                      <button type="button" className="p-2 text-[#867275] hover:text-[#EF4444] hover:bg-[#EF4444]/5 rounded-full transition-colors cursor-pointer" aria-label="Eliminar">
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
+                    {deletingId === row.id ? (
+                      <div className="flex justify-end items-center gap-1 text-[12px] text-[#EF4444] font-semibold">
+                        <span>¿Eliminar?</span>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteConfirm(row.id)}
+                          className="p-1.5 text-white bg-[#EF4444] rounded-full hover:bg-[#DC2626] transition-colors cursor-pointer"
+                          aria-label="Confirmar eliminación"
+                        >
+                          <Check size={14} />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setDeletingId(null)}
+                          className="p-1.5 text-[#544245] border border-[#E5E7EB] rounded-full hover:bg-[#FFF0F6] transition-colors cursor-pointer"
+                          aria-label="Cancelar eliminación"
+                        >
+                          <X size={14} />
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="flex justify-end gap-2">
+                        {canMutate && (
+                          <>
+                            <button
+                              type="button"
+                              onClick={() => setModalMode({ mode: "edit", row })}
+                              className="p-2 text-[#984258] hover:bg-[#984258]/5 rounded-full transition-colors cursor-pointer"
+                              aria-label="Editar"
+                            >
+                              <Pencil size={16} />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setDeletingId(row.id)}
+                              className="p-2 text-[#867275] hover:text-[#EF4444] hover:bg-[#EF4444]/5 rounded-full transition-colors cursor-pointer"
+                              aria-label="Eliminar"
+                            >
+                              <Trash2 size={16} />
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -230,7 +283,6 @@ export function CalzadoPanel({ rows, inventoryTitle, unifiedFilter, onUnifiedFil
           </div>
         </div>
       </div>
-      {/* Modal de detalle del producto al hacer clic en el nombre */}
       {selectedRow ? (
         <div className="modal-backdrop" role="presentation" onClick={() => setSelectedRow(null)}>
           <article
@@ -272,12 +324,10 @@ export function CalzadoPanel({ rows, inventoryTitle, unifiedFilter, onUnifiedFil
         </div>
       ) : null}
       <AddProductModal
-        open={showAddModal}
-        onClose={() => setShowAddModal(false)}
-        onSubmit={(data) => {
-          console.log("Nuevo producto:", data);
-          setShowAddModal(false);
-        }}
+        open={modalMode !== null}
+        onClose={() => setModalMode(null)}
+        onSubmit={handleAddSubmit}
+        editingRow={modalMode?.mode === "edit" ? modalMode.row : undefined}
       />
     </section>
   );

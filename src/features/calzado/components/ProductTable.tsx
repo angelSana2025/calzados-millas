@@ -1,21 +1,17 @@
-import { Pencil, Trash2, ImageIcon } from "lucide-react";
-import type { VentaProduct } from "../types/ventas.types";
+import { useState } from "react";
+import { Pencil, Trash2, ImageIcon, Check, X } from "lucide-react";
+import type { VentaProduct } from "../types/calzado.types";
 import { StockStatusPill } from "./StockStatusPill";
 
 type Props = {
   products: VentaProduct[];
+  onEdit: (product: VentaProduct) => void;
+  onDelete: (id: number) => void;
 };
 
-/*
- * Tabla principal de productos con 9 columnas.
- *
- * Si no hay productos (filtros sin resultados) muestra un
- * mensaje informativo en lugar de la tabla vacía.
- *
- * La imagen del producto tiene un fallback visual: si no hay URL,
- * muestra un icono de Material Symbols como placeholder.
- */
-export function ProductTable({ products }: Props) {
+export function ProductTable({ products, onEdit, onDelete }: Props) {
+  const [deletingId, setDeletingId] = useState<number | null>(null);
+
   if (products.length === 0) {
     return (
       <div className="flex items-center justify-center h-48 text-[#544245] text-[14px]">
@@ -72,14 +68,46 @@ export function ProductTable({ products }: Props) {
               <td className="px-6 py-4 text-[18px] font-bold text-[#984258]">${product.price.toFixed(2)}</td>
               <td className="px-6 py-4 text-[12px] text-[#544245]">{product.supplier}</td>
               <td className="px-6 py-4 text-right">
-                <div className="flex justify-end gap-2">
-                  <button className="p-2 text-[#984258] hover:bg-[#984258]/5 rounded-full transition-colors cursor-pointer" aria-label="Editar">
-                    <Pencil size={16} />
-                  </button>
-                  <button className="p-2 text-[#867275] hover:text-[#EF4444] hover:bg-[#EF4444]/5 rounded-full transition-colors cursor-pointer" aria-label="Eliminar">
-                    <Trash2 size={16} />
-                  </button>
-                </div>
+                {deletingId === product.id ? (
+                  <div className="flex justify-end items-center gap-1 text-[12px] text-[#EF4444] font-semibold">
+                    <span>¿Eliminar?</span>
+                    <button
+                      type="button"
+                      onClick={() => { onDelete(product.id); setDeletingId(null); }}
+                      className="p-1.5 text-white bg-[#EF4444] rounded-full hover:bg-[#DC2626] transition-colors cursor-pointer"
+                      aria-label="Confirmar eliminación"
+                    >
+                      <Check size={14} />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setDeletingId(null)}
+                      className="p-1.5 text-[#544245] border border-[#E5E7EB] rounded-full hover:bg-[#FFF0F6] transition-colors cursor-pointer"
+                      aria-label="Cancelar eliminación"
+                    >
+                      <X size={14} />
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex justify-end gap-2">
+                    <button
+                      type="button"
+                      onClick={() => onEdit(product)}
+                      className="p-2 text-[#984258] hover:bg-[#984258]/5 rounded-full transition-colors cursor-pointer"
+                      aria-label="Editar"
+                    >
+                      <Pencil size={16} />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setDeletingId(product.id)}
+                      className="p-2 text-[#867275] hover:text-[#EF4444] hover:bg-[#EF4444]/5 rounded-full transition-colors cursor-pointer"
+                      aria-label="Eliminar"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                )}
               </td>
             </tr>
           ))}

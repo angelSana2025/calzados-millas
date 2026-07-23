@@ -1,17 +1,15 @@
-import { useMemo } from "react";
-import { getBotinesInventory } from "../services/botines.service";
+import { useInventoryCrud } from "@/features/inventory-shared/hooks/useInventoryCrud";
 
-/** Hook de página para Gestion Botines.
- *  Provee los datos y metadatos necesarios para la vista.
- *  useMemo con deps vacías porque los datos son estáticos (mock).
- *  section se tipa como "botines" (as const) para discriminated unions. */
 export function useGestionBotinesPage() {
-  const rows = useMemo(() => getBotinesInventory(), []);
+  const crud = useInventoryCrud("botines");
 
   return {
     title: "Gestión de Botines",
     inventoryTitle: "Inventario de Botines",
     section: "botines" as const,
-    rows,
+    rows: crud.rows,
+    addProduct: crud.add,
+    updateProduct: crud.update,
+    deleteProduct: crud.remove,
   };
 }

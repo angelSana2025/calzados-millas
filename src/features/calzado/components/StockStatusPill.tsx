@@ -1,16 +1,9 @@
-import type { StockStatus } from "../types/ventas.types";
+import type { StockStatus } from "../types/calzado.types";
 
 type Props = {
   status: StockStatus;
 };
 
-/*
- * Mapeo de cada estado a sus clases de color.
- *   - Optimal  → verde #16A34A
- *   - Low      → amarillo #EAB308
- *   - Critical → rojo #EF4444
- * El fondo usa la misma tonalidad al 10% de opacidad para no saturar.
- */
 const STATUS_MAP: Record<StockStatus, { label: string; bg: string; dot: string }> = {
   optimal: {
     label: "Óptimo",

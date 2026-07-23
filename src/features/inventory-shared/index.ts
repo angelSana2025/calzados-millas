@@ -11,4 +11,4 @@ export { DashboardPanel } from "./components/DashboardPanel";
 export { PRODUCT_PLACEHOLDER_IMAGE } from "./constants";
 export type { AddProductFormData } from "./components/AddProductModal";
 export type { InventorySection, StockRow } from "./types";
-export type { ViewCategory, StockFilter } from "./components/InventoryManagementLayout";
+export type { StockFilter } from "./components/InventoryManagementLayout";

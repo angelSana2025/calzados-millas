@@ -6,7 +6,8 @@ import { GestionBotinesPage } from "@/features/gestion-botines";
 import { GestionSandaliasPage } from "@/features/gestion-sandalias";
 import { IniciarSesionPage } from "@/features/iniciar-sesion/pages/IniciarSesionPage";
 import { LandingPage } from "@/features/landing/pages/LandingPage";
-import { VentasPage } from "@/features/ventas";
+import { CalzadoPage } from "@/features/calzado";
+import { DashboardPage } from "@/features/dashboard";
 
 const EcommercePage = lazy(() =>
   import("@/features/ecommerce").then((m) => ({ default: m.EcommercePage }))
@@ -22,7 +23,8 @@ export function AppRouter() {
       <Route element={<ProtectedRoute />}>
         <Route path={ROUTES.gestionSandalias} element={<GestionSandaliasPage />} />
         <Route path={ROUTES.gestionBotines} element={<GestionBotinesPage />} />
-        <Route path={ROUTES.ventas} element={<VentasPage />} />        {/* Stock Control */}
+        <Route path={ROUTES.calzado} element={<CalzadoPage />} />
+        <Route path={ROUTES.dashboard} element={<DashboardPage />} />
       </Route>
 
       <Route path="*" element={<Navigate to={ROUTES.home} replace />} />

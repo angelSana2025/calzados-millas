@@ -1,12 +1,14 @@
-/** Modal para agregar un nuevo producto al inventario.
+/** Modal para agregar o editar un producto del inventario.
  *  Adaptado del mockup HTML (code.html) a la paleta de marca del proyecto.
  *  Validación con react-hook-form + zod.
  *  Cierra con Escape, backdrop click, o botón CANCELAR/X.
- *  No usa alert/confirm/prompt — errores inline en el formulario. */
+ *  No usa alert/confirm/prompt — errores inline en el formulario.
+ *  Cuando recibe editingRow, opera en modo edición (pre-rellena el formulario). */
 import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFieldArray } from "react-hook-form";
 import { z } from "zod";
+import type { StockRow } from "../types";
 
 const TALLAS = [35, 36, 37, 38, 39] as const;
 
@@ -30,9 +32,35 @@ type AddProductModalProps = {
   open: boolean;
   onClose: () => void;
   onSubmit: (data: AddProductFormData) => void | Promise<void>;
+  editingRow?: StockRow;
 };
 
-export function AddProductModal({ open, onClose, onSubmit }: AddProductModalProps) {
+function formDefaults(editingRow?: StockRow): AddProductFormData {
+  if (editingRow) {
+    return {
+      modelo: editingRow.model,
+      color: editingRow.color,
+      temporada: editingRow.season as AddProductFormData["temporada"],
+      pares: [
+        { talla: 35, cantidad: 0 },
+        { talla: editingRow.size1.size, cantidad: editingRow.size1.qty },
+        { talla: editingRow.size2.size, cantidad: editingRow.size2.qty },
+        { talla: editingRow.size3.size, cantidad: editingRow.size3.qty },
+        { talla: 39, cantidad: 0 },
+      ],
+    };
+  }
+  return {
+    modelo: "",
+    color: "",
+    temporada: "Verano 2024" as const,
+    pares: TALLAS.map((talla) => ({ talla, cantidad: 0 })),
+  };
+}
+
+export function AddProductModal({ open, onClose, onSubmit, editingRow }: AddProductModalProps) {
+  const isEditing = !!editingRow;
+
   const {
     register,
     handleSubmit,
@@ -41,26 +69,16 @@ export function AddProductModal({ open, onClose, onSubmit }: AddProductModalProp
     formState: { errors, isSubmitting },
   } = useForm<AddProductFormData>({
     resolver: zodResolver(addProductSchema),
-    defaultValues: {
-      modelo: "",
-      color: "",
-      temporada: "Verano 2024",
-      pares: TALLAS.map((talla) => ({ talla, cantidad: 0 })),
-    },
+    defaultValues: formDefaults(editingRow),
   });
 
   const { fields } = useFieldArray({ control, name: "pares" });
 
   useEffect(() => {
     if (open) {
-      reset({
-        modelo: "",
-        color: "",
-        temporada: "Verano 2024",
-        pares: TALLAS.map((talla) => ({ talla, cantidad: 0 })),
-      });
+      reset(formDefaults(editingRow));
     }
-  }, [open, reset]);
+  }, [open, editingRow, reset]);
 
   useEffect(() => {
     if (!open) return;
@@ -86,7 +104,7 @@ export function AddProductModal({ open, onClose, onSubmit }: AddProductModalProp
       >
         <div className="px-8 py-6 flex justify-between items-center border-b border-[#E5E7EB]">
           <h2 className="text-2xl font-semibold tracking-tight text-[#251721]">
-            Agregar Producto
+            {isEditing ? "Editar Producto" : "Agregar Producto"}
           </h2>
           <button
             type="button"
@@ -214,7 +232,7 @@ export function AddProductModal({ open, onClose, onSubmit }: AddProductModalProp
               className="flex-1 py-3.5 bg-[#984258] text-white font-bold text-[12px] uppercase tracking-widest rounded-full transition-all hover:bg-[#7A2E45] disabled:opacity-60 disabled:cursor-not-allowed"
               style={{ boxShadow: isSubmitting ? "none" : "0 4px 6px -1px rgba(152,66,88,0.2)" }}
             >
-              {isSubmitting ? "AGREGANDO..." : "AGREGAR PRODUCTO"}
+              {isSubmitting ? "GUARDANDO..." : isEditing ? "GUARDAR CAMBIOS" : "AGREGAR PRODUCTO"}
             </button>
           </div>
         </form>

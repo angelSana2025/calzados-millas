@@ -1,22 +1,12 @@
 import { useMemo, useState } from "react";
-import { getVentasCategories, getVentasProducts } from "../services/ventas.service";
-import type { VentasFilters, VentaProduct } from "../types/ventas.types";
-
-/*
- * Hook principal del Stock Control.
- *
- * Orquesta dos responsabilidades:
- *   1. Filtrado por búsqueda, categoría y estado de stock
- *   2. Paginación local con 4 productos por página
- *
- * Cuando el backend esté disponible, el fetching de datos se moverá
- * a este hook con useEffect + servicio asíncrono.
- */
+import { getVentasCategories } from "../services/calzado.service";
+import { useCalzadoCrud } from "./useCalzadoCrud";
+import type { VentasFilters, VentaProduct } from "../types/calzado.types";
 
 const PAGE_SIZE = 4;
 
-export function useVentas() {
-  const allProducts = useMemo(() => getVentasProducts(), []);
+export function useCalzado() {
+  const crud = useCalzadoCrud();
   const categories = useMemo(() => getVentasCategories(), []);
 
   const [filters, setFilters] = useState<VentasFilters>({
@@ -26,14 +16,8 @@ export function useVentas() {
   });
   const [currentPage, setCurrentPage] = useState(1);
 
-  /*
-   * Filtrado en cascada:
-   *   1. Búsqueda textual sobre nombre y proveedor
-   *   2. Filtro exacto por categoría
-   *   3. Filtro exacto por estado de stock
-   */
   const filtered = useMemo(() => {
-    let result: VentaProduct[] = allProducts;
+    let result: VentaProduct[] = crud.rows;
 
     if (filters.search) {
       const q = filters.search.toLowerCase();
@@ -53,14 +37,9 @@ export function useVentas() {
     }
 
     return result;
-  }, [allProducts, filters]);
+  }, [crud.rows, filters]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
-
-  /*
-   * Si el usuario cambia de filtro en una página que ya no existe
-   * (ej. página 5 con 0 resultados), safePage lo corrige automáticamente.
-   */
   const safePage = Math.min(currentPage, totalPages);
 
   const paginated = useMemo(() => {
@@ -68,10 +47,6 @@ export function useVentas() {
     return filtered.slice(start, start + PAGE_SIZE);
   }, [filtered, safePage]);
 
-  /*
-   * Al cambiar cualquier filtro, volvemos a la página 1;
-   * así el usuario no se queda en una página vacía.
-   */
   function updateFilter(key: keyof VentasFilters, value: string) {
     setFilters((prev) => ({ ...prev, [key]: value }));
     setCurrentPage(1);
@@ -90,7 +65,6 @@ export function useVentas() {
 
   return {
     products: paginated,
-    allProducts,
     categories,
     filters,
     totalPages,
@@ -99,5 +73,8 @@ export function useVentas() {
     updateFilter,
     clearFilters,
     goToPage,
+    addProduct: crud.add,
+    updateProduct: crud.update,
+    deleteProduct: crud.remove,
   };
 }

@@ -1,10 +1,5 @@
-import type { VentaProduct } from "../types/ventas.types";
+import type { VentaProduct } from "../types/calzado.types";
 
-/*
- * Datos de ejemplo para desarrollo — cuando el backend NestJS esté listo,
- * este servicio se conectará a GET /inventory/:section y devolverá datos
- * reales desde la base de datos.
- */
 const MOCK_PRODUCTS: VentaProduct[] = [
   {
     id: 1,
@@ -104,12 +99,10 @@ const MOCK_PRODUCTS: VentaProduct[] = [
   },
 ];
 
-/** Devuelve todos los productos disponibles (mock por ahora) */
 export function getVentasProducts(): VentaProduct[] {
   return MOCK_PRODUCTS;
 }
 
-/** Extrae y ordena las categorías únicas de los productos para los filtros */
 export function getVentasCategories(): string[] {
   const categories = new Set(MOCK_PRODUCTS.map((p) => p.category));
   return Array.from(categories).sort();

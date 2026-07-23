@@ -1,17 +1,15 @@
-import { useMemo } from "react";
-import { getSandaliasInventory } from "../services/sandalias.service";
+import { useInventoryCrud } from "@/features/inventory-shared/hooks/useInventoryCrud";
 
-/** Hook de página para Gestion Sandalias.
- *  Provee datos y metadatos a la vista.
- *  useMemo con deps vacías por datos estáticos (mock).
- *  section tipado como "sandalias" (as const) para discriminated unions. */
 export function useGestionSandaliasPage() {
-  const rows = useMemo(() => getSandaliasInventory(), []);
+  const crud = useInventoryCrud("sandalias");
 
   return {
     title: "Gestión de Sandalias",
     inventoryTitle: "Inventario de Sandalias",
     section: "sandalias" as const,
-    rows,
+    rows: crud.rows,
+    addProduct: crud.add,
+    updateProduct: crud.update,
+    deleteProduct: crud.remove,
   };
 }
