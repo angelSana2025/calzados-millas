@@ -1,6 +1,9 @@
 import type { StockRow } from "@/features/inventory-shared";
 import { PRODUCT_PLACEHOLDER_IMAGE } from "@/features/inventory-shared";
 
+/** Datos mock del inventario de sandalias.
+ *  totalPairs se mantiene manualmente.
+ *  size2.qty = 0 (id 4) indica que esa talla no está disponible. */
 export const sandaliasInventory: StockRow[] = [
   {
     id: 1,

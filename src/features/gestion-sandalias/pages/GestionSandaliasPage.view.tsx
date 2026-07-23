@@ -5,13 +5,27 @@ type GestionSandaliasPageViewProps = {
   title: string;
   inventoryTitle: string;
   rows: StockRow[];
+  addProduct: (data: { modelo: string; color: string; temporada: string; pares: { talla: number; cantidad: number }[] }) => void;
+  updateProduct: (id: number, data: { modelo: string; color: string; temporada: string; pares: { talla: number; cantidad: number }[] }) => void;
+  deleteProduct: (id: number) => void;
 };
 
-/** Vista pura: sin hooks ni servicios, solo props → UI. */
 export function GestionSandaliasPageView({
   title,
   inventoryTitle,
   rows,
+  addProduct,
+  updateProduct,
+  deleteProduct,
 }: GestionSandaliasPageViewProps) {
-  return <SandaliasWorkspace title={title} inventoryTitle={inventoryTitle} rows={rows} />;
+  return (
+    <SandaliasWorkspace
+      title={title}
+      inventoryTitle={inventoryTitle}
+      rows={rows}
+      addProduct={addProduct}
+      updateProduct={updateProduct}
+      deleteProduct={deleteProduct}
+    />
+  );
 }

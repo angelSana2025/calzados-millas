@@ -1,111 +1,85 @@
 import { NavLink } from "react-router-dom";
+import { BarChart3, Flower2, HelpCircle, LogOut, Mountain, Package, PlusCircle } from "lucide-react";
 import { ROUTES } from "@/core";
-import type { InventorySection, StockRow } from "../types";
-import { stockPillClass } from "../utils/stock";
 
-type InventorySidebarProps = {
-  rows: StockRow[];
-  currentSection: InventorySection;
+type NavItem = {
+  label: string;
+  icon: React.ReactNode;
+  to: string;
 };
 
-const SECTION_LINKS: { section: InventorySection; label: string; to: string }[] = [
-  { section: "sandalias", label: "Calzado / Sandalias", to: ROUTES.gestionSandalias },
-  { section: "botines", label: "Botines", to: ROUTES.gestionBotines },
+type NavSection = {
+  title: string;
+  items: NavItem[];
+};
+
+const SECTIONS: NavSection[] = [
+  {
+    title: "Gestión",
+    items: [
+      { label: "Sandalias", icon: <Flower2 size={18} />, to: ROUTES.gestionSandalias },
+      { label: "Botines", icon: <Mountain size={18} />, to: ROUTES.gestionBotines },
+    ],
+  },
+  {
+    title: "Calzado",
+    items: [
+      { label: "Productos", icon: <Package size={18} />, to: ROUTES.calzado },
+    ],
+  },
+  {
+    title: "Dashboard",
+    items: [
+      { label: "Dashboard", icon: <BarChart3 size={18} />, to: ROUTES.dashboard },
+    ],
+  },
 ];
 
-export function InventorySidebar({ rows, currentSection }: InventorySidebarProps) {
-  const stockAlerts = rows
-    .map((row) => {
-      const lowSizes = [row.size1, row.size2, row.size3].filter((size) => size.qty <= 3);
-      return { row, lowSizes };
-    })
-    .filter((entry) => entry.lowSizes.length > 0)
-    .slice(0, 3);
-
+export function InventorySidebar() {
   return (
-    <aside className="order-sidebar flex flex-col gap-3">
-      <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
-        <h2 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-600">Menú</h2>
-        <nav className="flex flex-col gap-1.5" aria-label="Módulos de gestión">
-          {SECTION_LINKS.map(({ section, label, to }) => (
-            <NavLink
-              key={section}
-              to={to}
-              className={({ isActive }) =>
-                `rounded-lg px-3 py-2 text-sm font-medium transition ${
-                  isActive || section === currentSection
-                    ? "bg-blue-50 text-blue-700 ring-1 ring-blue-200"
-                    : "text-slate-600 hover:bg-slate-50"
-                }`
-              }
-              end
-            >
-              {label}
-            </NavLink>
-          ))}
-        </nav>
-      </div>
-
-      <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
-        <h3 className="mb-2 text-sm font-bold text-slate-800">Alertas de stock</h3>
-        <div className="order-alerts-scroll max-h-[min(200px,32vh)] space-y-2 overflow-y-auto pr-0.5">
-          {stockAlerts.length === 0 ? (
-            <p className="text-xs text-slate-500">Sin alertas por ahora.</p>
-          ) : (
-            stockAlerts.map(({ row, lowSizes }) => (
-              <article key={row.id} className="stock-alert-card">
-                <p className="text-sm font-semibold leading-tight text-slate-800">{row.model}</p>
-                <p className="mb-1.5 text-xs text-slate-500">Color: {row.color}</p>
-                {lowSizes.map((size) => (
-                  <div key={`${row.id}-${size.size}`} className="stock-alert-item">
-                    <span className="text-xs text-slate-700">Talla {size.size}</span>
-                    <span className={`stock-pill ${stockPillClass(size.qty)}`}>{size.qty} pares</span>
-                  </div>
-                ))}
-              </article>
-            ))
-          )}
-        </div>
-      </div>
-
-      <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
-        <div className="flex min-w-0 flex-col gap-4">
-          <div className="min-w-0">
-            <h3 className="mb-2 text-[11px] font-bold uppercase tracking-wide text-slate-600">Acciones rápidas</h3>
-            <div className="grid grid-cols-2 gap-2">
-              <button type="button" className="quick-action-btn quick-action-btn-compact">
-                + Venta
-              </button>
-              <button type="button" className="quick-action-btn quick-action-btn-compact">
-                + Stock
-              </button>
-              <button type="button" className="quick-action-btn quick-action-btn-compact">
-                Temporada
-              </button>
-              <button type="button" className="quick-action-btn quick-action-btn-compact">
-                Reportes
-              </button>
+    <aside className="flex flex-col h-full">
+      <nav className="flex-1 space-y-5 px-2">
+        {SECTIONS.map((section) => (
+          <div key={section.title}>
+            <p className="text-[10px] font-bold text-[#867275] uppercase tracking-widest mb-3">
+              {section.title}
+            </p>
+            <div className="space-y-0.5">
+              {section.items.map((item) => (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  end
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200 text-left ${
+                      isActive
+                        ? "bg-[#E8839A] text-[#671c32] font-bold shadow-sm"
+                        : "text-[#544245] hover:bg-[#F5DCE9]/50"
+                    }`
+                  }
+                >
+                  {item.icon}
+                  <span className="text-[14px] font-medium">{item.label}</span>
+                </NavLink>
+              ))}
             </div>
           </div>
+        ))}
+      </nav>
 
-          <div className="sidebar-section-divider border-t border-slate-200 pt-4">
-            <h3 className="mb-2 text-[11px] font-bold uppercase tracking-wide text-slate-600">Estado del stock</h3>
-            <ul className="m-0 flex list-none flex-col gap-2 p-0 text-[11px] leading-snug text-slate-600">
-              <li className="legend-item legend-item-compact">
-                <span className="legend-dot legend-good shrink-0" />
-                <span className="min-w-0">4+ pares — bueno</span>
-              </li>
-              <li className="legend-item legend-item-compact">
-                <span className="legend-dot legend-low shrink-0" />
-                <span className="min-w-0">3 pares — bajo</span>
-              </li>
-              <li className="legend-item legend-item-compact">
-                <span className="legend-dot legend-critical shrink-0" />
-                <span className="min-w-0">≤2 — crítico</span>
-              </li>
-            </ul>
-          </div>
-        </div>
+      <div className="mt-auto pt-4 border-t border-[#E5E7EB] px-2 space-y-1">
+        <button className="w-full flex items-center gap-3 px-4 py-2.5 text-[#984258] bg-[#984258]/5 hover:bg-[#984258]/10 rounded-lg font-bold transition-all text-left">
+          <PlusCircle size={18} />
+          <span className="text-[14px] font-medium">Registrar Producto</span>
+        </button>
+        <button className="w-full flex items-center gap-3 px-4 py-2.5 text-[#544245] hover:bg-[#F5DCE9]/50 rounded-lg transition-all text-left">
+          <HelpCircle size={18} aria-hidden="true" />
+          <span className="text-[14px] font-medium">Centro de ayuda</span>
+        </button>
+        <button className="w-full flex items-center gap-3 px-4 py-2.5 text-[#544245] hover:bg-[#F5DCE9]/50 rounded-lg transition-all text-left">
+          <LogOut size={18} aria-hidden="true" />
+          <span className="text-[14px] font-medium">Cerrar sesión</span>
+        </button>
       </div>
     </aside>
   );
